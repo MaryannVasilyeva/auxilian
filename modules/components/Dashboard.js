@@ -14,9 +14,9 @@ class Dashboard extends React.Component {
     mapboxgl.accessToken = 'pk.eyJ1IjoibXZhc2lseWV2YSIsImEiOiJjaW51dnV3eDUxMm5jdWdseXR3dW1wazRoIn0.l7HVScO-ipfCEwOmvDuGsg'
     let map = new mapboxgl.Map({
       container: "map",
-      style: "mapbox://styles/mapbox/streets-v8", //stylesheet location
-      center: [ -74.50, 40 ], // starting position
-      zoom: 9 // starting zoom
+      style: "mapbox://styles/mapbox/streets-v8",
+      center: [ -74.50, 40 ],
+      zoom: 9
     })   
   }
 
@@ -57,7 +57,6 @@ class Dashboard extends React.Component {
   return (
     <div>
       <h1>Dashboard</h1>
-      <div id='map' style={{ position: "absolute", top: "0", bottom: "0", width: "100%" }}></div>
       <form onSubmit={(e) => this.addTodo(e, id)}>
         <input ref="text" />
         <button type="submit">Add</button>
@@ -65,6 +64,7 @@ class Dashboard extends React.Component {
       <ul>
         {todos}
       </ul>
+      <div id='map' style={{ position: "absolute", top: "40", bottom: "0", width: "50%", height: "50%" }}></div>
     </div>
    )
   }
