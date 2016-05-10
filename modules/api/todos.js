@@ -1,5 +1,5 @@
 import Todo from '../models/todo'
-
+//change this from the todos to the requests
 export const createTodo = (req, res) => {
   new Todo({
     text: req.body.text,

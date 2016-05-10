@@ -27,10 +27,10 @@ const Document = React.createClass({
       <html>
         <head>
           <meta charSet="utf-8"/>
-          <meta name='viewport' content='initial-scale=1,maximum-scale=1,user-scalable=no' />
+          <meta name="viewport" content="initial-scale=1,maximum-scale=1,user-scalable=no" />
           <link rel="shortcut icon" href={favicon}/>
           <title>{title}</title>
-           <link href='https://api.tiles.mapbox.com/mapbox-gl-js/v0.18.0/mapbox-gl.css' rel='stylesheet' />
+           <link href="https://api.tiles.mapbox.com/mapbox-gl-js/v0.18.0/mapbox-gl.css" rel="stylesheet" />
           {styles}
         </head>
         <body>
