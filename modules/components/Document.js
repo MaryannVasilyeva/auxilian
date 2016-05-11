@@ -8,6 +8,7 @@ const shims = `
   window.Promise || document.write('<script src="/Promise.js"><\\/script>');
   window.fetch || document.write('<script src="/fetch.js"><\\/script>');
   window.mapboxgl || document.write('<script src="https://api.tiles.mapbox.com/mapbox-gl-js/v0.18.0/mapbox-gl.js"><\\/script>');
+  window.$ || document.write('<script src="/vendor/jquery/dist/jquery.min.js"><\\/script>')
 `
 
 const Document = React.createClass({
@@ -31,6 +32,7 @@ const Document = React.createClass({
           <link rel="shortcut icon" href={favicon}/>
           <title>{title}</title>
            <link href='https://api.tiles.mapbox.com/mapbox-gl-js/v0.18.0/mapbox-gl.css' rel='stylesheet' />
+           <link rel="stylesheet" href="/vendor/Materialize/dist/css/materialize.min.css" />
           {styles}
         </head>
         <body>
