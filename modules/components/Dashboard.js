@@ -1,23 +1,13 @@
 import React from 'react'
 import $ from 'jquery'
 import { connect } from 'react-redux'
+import Map from './Map'
 
 class Dashboard extends React.Component {
   constructor(props) {
     super(props)
     this.addTodo = this.addTodo.bind(this)
     this.state = { todos: [] }
-  }
-
-  componentDidMount() {
-    let mapboxgl = window.mapboxgl
-    mapboxgl.accessToken = 'pk.eyJ1IjoibXZhc2lseWV2YSIsImEiOiJjaW51dnV3eDUxMm5jdWdseXR3dW1wazRoIn0.l7HVScO-ipfCEwOmvDuGsg'
-    let map = new mapboxgl.Map({
-      container: 'map',
-      style: 'mapbox://styles/mapbox/streets-v8',
-      center: [ -111.950684, 39.419220 ],
-      zoom: 6
-    })   
   }
 
   componentWillMount() {
@@ -58,9 +48,8 @@ class Dashboard extends React.Component {
     <div>
       <div>
         <h1>Dashboard</h1>
-        <div id="map" style={{ position: "absolute", top: "70", bottom: "0", width: "50%", height: "60%" }}></div>
       </div>
-      <div style={{ float: "right" }}>
+      <div>
         <form onSubmit={(e) => this.addTodo(e, id)}>
           <input ref="text" />
           <button type="submit">Add</button>
@@ -69,6 +58,7 @@ class Dashboard extends React.Component {
           {todos}
         </ul>
       </div>
+      <Map />
     </div>
    )
   }
