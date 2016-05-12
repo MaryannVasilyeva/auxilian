@@ -6,33 +6,33 @@ import Map from './Map'
 class Dashboard extends React.Component {
   constructor(props) {
     super(props)
-    this.addTodo = this.addTodo.bind(this)
-    this.state = { todos: [] }
+    this.addRequest = this.addRequest.bind(this)
+    this.state = { requests: [] }
   }
 
   componentWillMount() {
     const id = this.props.auth.id
     $.ajax({
-      url: '/api/todos',
+      url: '/api/requests',
       type: 'GET',
       dataType: 'JSON',
       contentType: 'application/json',
       data: { id: id }
-    }).done( todos => {
-      this.setState({ todos: todos })
+    }).done( requests => {
+      this.setState({ requests: requests })
     })
   }
 
-  addTodo(e, id) {
+  addRequest(e, id) {
     e.preventDefault()
     $.ajax({
-      url: '/api/todos',
+      url: '/api/requests',
       type: 'POST',
       dataType: 'JSON',
       contentType: 'application/json',
       data: JSON.stringify({ text: this.refs.text.value, id: id })
-    }).done( todo => {
-      this.setState({ todos: [ ...this.state.todos, todo ] })
+    }).done( request => {
+      this.setState({ requests: [ ...this.state.requests, request ] })
     })
     this.refs.text.value = ''
   }
@@ -40,8 +40,8 @@ class Dashboard extends React.Component {
   render() {
     const token = this.props.auth.token
     const id = this.props.auth.id
-    let todos = this.state.todos.map( todo => {
-      return <li key={todo._id}>{todo.text}</li>
+    let requests = this.state.requests.map( request => {
+      return <li key={request._id}>{request.text}</li>
     })
 
   return (
@@ -49,13 +49,13 @@ class Dashboard extends React.Component {
       <div>
         <h1>Dashboard</h1>
       </div>
-      <div>
-        <form onSubmit={(e) => this.addTodo(e, id)}>
+      <div style={{ float: "right" }}>
+        <form onSubmit={(e) => this.addRequest(e, id)}>
           <input ref="text" />
           <button type="submit">Add</button>
         </form>
         <ul>
-          {todos}
+          {requests}
         </ul>
       </div>
       <Map />
