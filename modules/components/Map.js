@@ -10,7 +10,7 @@ class Map extends React.Component {
 
   componentDidMount() {
     let mapboxgl = window.mapboxgl
-    mapboxgl.accessToken = 'pk.eyJ1IjoidGh1YmVzIiwiYSI6ImNpbnV5bGczdjEyczF1YW0zeTVreTJudWIifQ.GeJpORzICTOTDUEcnY9nPw'
+    mapboxgl.accessToken = 'pk.eyJ1IjoibXZhc2lseWV2YSIsImEiOiJjaW51dnZobXIxMm5odWdseWVzanI4d2s1In0.RQNmugJct0lHOOlcFyCeRA'
     
     let map = new mapboxgl.Map({
       container: 'map',
@@ -24,17 +24,17 @@ class Map extends React.Component {
             "type": "geojson",
             "data": {
                 "type": "FeatureCollection",
-                "features": [{
+                "features": [ {
                     "type": "Feature",
                     "geometry": {
                         "type": "Point",
-                        "coordinates": [-111.89, 40.76]
+                        "coordinates": [ -111.89, 40.76 ]
                     },
                     "properties": {
                         "title": "You are here",
                         "marker-symbol": "marker"
                     }
-                }]
+                } ]
             }
         })
 
@@ -45,19 +45,15 @@ class Map extends React.Component {
             "layout": {
                 "icon-image": "{marker-symbol}-15",
                 "text-field": "{title}",
-                "text-font": ["Open Sans Semibold", "Arial Unicode MS Bold"],
-                "text-offset": [0, 0.6],
+                "text-font": [ "Open Sans Semibold", "Arial Unicode MS Bold" ],
+                "text-offset": [ 0, 0.6 ],
                 "text-anchor": "top"
             }
         })
     })
 
-    map.addControl(new mapboxgl.Navigation({position: 'top-left'}))
+    map.addControl(new mapboxgl.Navigation({ position: 'top-left' }))
 
-    var tooltip = new mapboxgl.Popup({closeOnClick: true})
-      .setLngLat([-111.89, 40.76])
-      .setHTML('<h1>You are here</h1>')
-      .addTo(map);
   }
 
   render() {
