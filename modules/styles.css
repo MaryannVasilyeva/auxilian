@@ -11,3 +11,14 @@ body {
     width: 50%;
     height: 60%;
 }
+#geocoder-container {
+    position: absolute;
+    top: 0;
+    width: 100%;
+    margin-top: 10px;
+}
+
+#geocoder-container > div {
+    min-width:50%;
+    margin-left:25%;
+}

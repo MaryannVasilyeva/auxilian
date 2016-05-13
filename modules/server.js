@@ -36,7 +36,7 @@ passport.use(new LocalStrategy(User.authenticate()))
 passport.serializeUser(User.serializeUser())
 passport.deserializeUser(User.deserializeUser())
 
-mongoose.connect('mongodb://localhost/auth-3')
+mongoose.connect('mongodb://localhost/auxilian')
 
 server.start()
 

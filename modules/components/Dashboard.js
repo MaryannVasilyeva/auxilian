@@ -30,11 +30,18 @@ class Dashboard extends React.Component {
       type: 'POST',
       dataType: 'JSON',
       contentType: 'application/json',
-      data: JSON.stringify({ text: this.refs.text.value, id: id })
+      data: JSON.stringify({ 
+        text: this.refs.text.value, 
+        desc: this.refs.desc.value,
+        coord: this.refs.coord.value,
+        id: id 
+      })
     }).done( request => {
       this.setState({ requests: [ ...this.state.requests, request ] })
     })
     this.refs.text.value = ''
+    this.refs.desc.value = ''
+    this.refs.coord.value = ''
   }
 
   render() {
@@ -51,7 +58,9 @@ class Dashboard extends React.Component {
       </div>
       <div style={{ float: "right" }}>
         <form onSubmit={(e) => this.addRequest(e, id)}>
-          <input ref="text" />
+          <input ref="text" placeholder="Volunteer Event Title" />
+          <input ref="desc" placeholder="Description of Event" />
+          <input ref="coord" placeholder="Location of Event" />
           <button type="submit">Add</button>
         </form>
         <ul>

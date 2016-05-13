@@ -54,12 +54,14 @@ class Map extends React.Component {
 
     map.addControl(new mapboxgl.Navigation({ position: 'top-left' }))
 
+
   }
 
   render() {
     
   return (
       <div>
+        <div id='geocoder-container'></div>
         <div id="map" className={mapThing}></div>
       </div> 
     )

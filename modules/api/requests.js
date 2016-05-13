@@ -1,11 +1,22 @@
 import Request from '../models/request'
 //change this from the todos to the requests
 export const createRequest = (req, res) => {
+  //call geocoder get back data
+  //get lat and long
+  //add to coordinates
   new Request({
-    text: req.body.text,
-    userId: req.body.id,
-    completed: false
+    geometry: { 
+      type: "Point", coordinates: [ req.body.coord ] 
+    },
+    properties: {
+      title: req.body.text,
+      description: req.body.desc,
+      date: new Date(),
+      userId: req.body.id
+    }
   }).save( function (err, request) {
+    if (err)
+      console.log(err)
     res.json(request)
   })
 }
