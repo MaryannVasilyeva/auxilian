@@ -2,12 +2,66 @@ import React from 'react'
 import $ from 'jquery'
 import { connect } from 'react-redux'
 import Map from './Map'
+import { mapThing } from '../styles.css'
 
 class Dashboard extends React.Component {
   constructor(props) {
     super(props)
     this.addRequest = this.addRequest.bind(this)
+    this.getCoordinates = this.getCoordinates.bind(this)
+    this.loadMap = this.loadMap.bind(this)
     this.state = { requests: [] }
+  }
+
+  componentDidMount() {
+    this.loadMap([ -111.89, 40.76 ])
+  }
+
+  loadMap(coordinates) {
+    let mapboxgl = window.mapboxgl
+    mapboxgl.accessToken = 'pk.eyJ1IjoibXZhc2lseWV2YSIsImEiOiJjaW51dnZobXIxMm5odWdseWVzanI4d2s1In0.RQNmugJct0lHOOlcFyCeRA'
+    let map = new mapboxgl.Map({
+      container: 'map',
+      style: 'mapbox://styles/mapbox/streets-v8',
+      center: [ -111.950684, 39.419220 ],
+      zoom: 7
+    }) 
+    map.on('load', function () {
+      console.log(coordinates)
+        map.addSource("markers", {
+            "type": "geojson",
+            "data": {
+                "type": "FeatureCollection",
+                "features": [ {
+                    "type": "Feature",
+                    "geometry": {
+                        "type": "Point",
+                        "coordinates": coordinates
+                    },
+                    "properties": {
+                        "title": "You are here",
+                        "marker-symbol": "marker"
+                    }
+                } ]
+            }
+        })
+
+        map.addLayer({
+            "id": "markers",
+            "type": "symbol",
+            "source": "markers",
+            "layout": {
+                "icon-image": "{marker-symbol}-15",
+                "text-field": "{title}",
+                "text-font": [ "Open Sans Semibold", "Arial Unicode MS Bold" ],
+                "text-offset": [ 0, 0.6 ],
+                "text-anchor": "top"
+            }
+        })
+    })
+
+    map.addControl(new mapboxgl.Navigation({ position: 'top-left' }))
+
   }
 
   componentWillMount() {
@@ -23,25 +77,36 @@ class Dashboard extends React.Component {
     })
   }
 
+  getCoordinates(e) {
+    e.preventDefault()
+    var address = this.refs.coord.value
+    $.ajax({
+      url: '/api/requests?address=' + this.refs.coord.value,
+      type: 'GET'
+     }).done( response => {
+      this.loadMap(response.features[0].center)
+    })
+  }
+
   addRequest(e, id) {
     e.preventDefault()
-    $.ajax({
-      url: '/api/requests',
-      type: 'POST',
-      dataType: 'JSON',
-      contentType: 'application/json',
-      data: JSON.stringify({ 
-        text: this.refs.text.value, 
-        desc: this.refs.desc.value,
-        coord: this.refs.coord.value,
-        id: id 
-      })
-    }).done( request => {
-      this.setState({ requests: [ ...this.state.requests, request ] })
-    })
-    this.refs.text.value = ''
-    this.refs.desc.value = ''
-    this.refs.coord.value = ''
+     $.ajax({
+       url: '/api/requests',
+       type: 'POST',
+       dataType: 'JSON',
+       contentType: 'application/json',
+       data: JSON.stringify({ 
+         text: this.refs.text.value, 
+         desc: this.refs.desc.value,
+         coord: this.refs.coord.value,
+         id: id 
+       })
+     }).done( request => {
+       this.setState({ requests: [ ...this.state.requests, request ] })
+     })
+     this.refs.text.value = ''
+     this.refs.desc.value = ''
+     this.refs.coord.value = '' 
   }
 
   render() {
@@ -57,17 +122,16 @@ class Dashboard extends React.Component {
         <h1>Dashboard</h1>
       </div>
       <div style={{ float: "right" }}>
-        <form onSubmit={(e) => this.addRequest(e, id)}>
+        <form onSubmit={(e) => this.getCoordinates(e)}>
           <input ref="text" placeholder="Volunteer Event Title" />
           <input ref="desc" placeholder="Description of Event" />
           <input ref="coord" placeholder="Location of Event" />
           <button type="submit">Add</button>
         </form>
-        <ul>
-          {requests}
-        </ul>
       </div>
-      <Map />
+        <div id='geocoder-container'></div>
+          {this.props.coordinates}
+        <div id="map" className={mapThing}></div>
     </div>
    )
   }
