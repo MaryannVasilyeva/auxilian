@@ -33,7 +33,7 @@ class Dashboard extends React.Component {
       data: JSON.stringify({ 
         text: this.refs.text.value, 
         desc: this.refs.desc.value,
-        coord: this.refs.coord.value,
+        address: this.refs.address.value,
         id: id 
       })
     }).done( request => {
