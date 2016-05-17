@@ -5,7 +5,7 @@ let Schema = mongoose.Schema
 let Request = new Schema({
   geometry: { 
     type: { type: String, default: "Point" }, 
-    coordinates: [ String ] 
+    coordinates: [ Number ] 
   },
   properties: {
     title:       { type: String, required: true },

@@ -29,7 +29,9 @@ export default (
     <ServerRoute path="/api">
       <ServerRoute path="signup" post={signUp} />
       <ServerRoute path="signin" post={signIn} />
-      <ServerRoute path="requests" post={createRequest} get={getRequests} get={getMapBox} />
+      <ServerRoute path="requests" post={createRequest} get={getMapBox}> 
+        <ServerRoute path=":id" get={getRequests}  />
+      </ServerRoute>
     </ServerRoute>
     <Route path="*" status={404} component={NoMatch}/>
   </Route>

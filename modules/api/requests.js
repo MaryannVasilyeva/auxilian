@@ -7,9 +7,11 @@ export const createRequest = (req, res) => {
   //call geocoder get back data
   //get lat and long
   //add to coordinates
+  
+
   new Request({
     geometry: { 
-      type: "Point", coordinates: [ req.body.coord ] 
+      type: "Point", coordinates: req.body.coord
     },
     properties: {
       title: req.body.text,
@@ -20,15 +22,20 @@ export const createRequest = (req, res) => {
   }).save( function (err, request) {
     if (err)
       console.log(err)
+    else {
+      console.log(request)
+    }
     res.json(request)
   })
 }
 
 export const getRequests = (req, res) => {
-  let query = Request.find({})
-  query.where('userId', req.query.id )
-  query.exec( function (err, request) {
-    res.json(request)
+  console.log("GETTING REQUESTS!!!!")
+  console.log(`ID: ${req.query.id}`)
+  Request.find({ 'properties.userId': req.query.id }, (err, requests) => {
+     if (err) 
+      console.log(err)
+    return res.json(requests)
   })
 }
 

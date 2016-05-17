@@ -14,7 +14,7 @@ class Dashboard extends React.Component {
   }
 
   componentDidMount() {
-    this.loadMap([ -111.89, 40.76 ])
+    this.loadMap([ -111.950684, 39.419220 ])
   }
 
   loadMap(coordinates) {
@@ -24,7 +24,7 @@ class Dashboard extends React.Component {
       container: 'map',
       style: 'mapbox://styles/mapbox/streets-v8',
       center: [ -111.950684, 39.419220 ],
-      zoom: 7
+      zoom: 6
     }) 
     map.on('load', function () {
       console.log(coordinates)
@@ -67,7 +67,7 @@ class Dashboard extends React.Component {
   componentWillMount() {
     const id = this.props.auth.id
     $.ajax({
-      url: '/api/requests',
+      url: `/api/requests/${id}`,
       type: 'GET',
       dataType: 'JSON',
       contentType: 'application/json',
@@ -84,12 +84,12 @@ class Dashboard extends React.Component {
       url: '/api/requests?address=' + this.refs.coord.value,
       type: 'GET'
      }).done( response => {
+      this.addRequest(this.props.auth.id, response.features[0].center)
       this.loadMap(response.features[0].center)
     })
   }
 
-  addRequest(e, id) {
-    e.preventDefault()
+  addRequest(id, coords) {
      $.ajax({
        url: '/api/requests',
        type: 'POST',
@@ -98,7 +98,7 @@ class Dashboard extends React.Component {
        data: JSON.stringify({ 
          text: this.refs.text.value, 
          desc: this.refs.desc.value,
-         coord: this.refs.coord.value,
+         coord: coords,
          id: id 
        })
      }).done( request => {
@@ -112,6 +112,7 @@ class Dashboard extends React.Component {
   render() {
     const token = this.props.auth.token
     const id = this.props.auth.id
+    debugger
     let requests = this.state.requests.map( request => {
       return <li key={request._id}>{request.text}</li>
     })
