@@ -21,17 +21,17 @@ class Map extends React.Component {
 
     let markers = {
       "type": "FeatureCollection",
-      "features": [{
+      "features": [ {
           "type": "Feature",
           "geometry": {
               "type": "Point",
-              "coordinates": [-111.89, 40.76]
+              "coordinates": [ -111.89, 40.76 ]
           },
           "properties": {
               "title": "Mapbox SF",
               "marker-symbol": "harbor"
           }
-      }]
+      } ]
     }
 
     map.on('load', function () {
