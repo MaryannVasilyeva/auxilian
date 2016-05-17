@@ -62,7 +62,6 @@ class Map extends React.Component {
     
   return (
       <div>
-        <div id='geocoder-container'></div>
         <div id="map" className={mapThing}></div>
       </div> 
     )
