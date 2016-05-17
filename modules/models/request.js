@@ -2,6 +2,7 @@ import mongoose from 'mongoose'
 let Schema = mongoose.Schema
 
 let Request = new Schema({
+  type: { type: String, default: "Feature" },
   geometry: { 
     type: { type: String, default: "Point" }, 
     coordinates: [ String ] 

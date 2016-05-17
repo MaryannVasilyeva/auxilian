@@ -31,17 +31,17 @@ const Document = React.createClass({
           <meta name="viewport" content="initial-scale=1,maximum-scale=1,user-scalable=no" />
           <link rel="shortcut icon" href={favicon}/>
           <title>{title}</title>
-           <link href='https://api.tiles.mapbox.com/mapbox-gl-js/v0.18.0/mapbox-gl.css' rel='stylesheet' />
-           <link rel="stylesheet" href="/vendor/Materialize/dist/css/materialize.min.css" />
+          <link href='https://api.tiles.mapbox.com/mapbox-gl-js/v0.18.0/mapbox-gl.css' rel='stylesheet' />
+          <link rel='stylesheet' href='https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v1.1.0/mapbox-gl-geocoder.css' />
+          <link rel="stylesheet" href="/vendor/Materialize/dist/css/materialize.min.css" />
           {styles}
         </head>
         <body>
           <div id="app" dangerouslySetInnerHTML={{ __html: content }}/>
           <script dangerouslySetInnerHTML={{ __html: shims }}/>
           <script src='https://api.tiles.mapbox.com/mapbox-gl-js/v0.18.0/mapbox-gl.js'></script>
+          <script src='https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v1.1.0/mapbox-gl-geocoder.js'></script>
           {scripts}
-          <script src='https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v1.0.0/mapbox-gl-geocoder.js'></script>
-          <link rel='stylesheet' href='https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v1.0.0/mapbox-gl-geocoder.css' type='text/css' />
         </body>
       </html>
     )
