@@ -31,13 +31,15 @@ const Document = React.createClass({
           <meta name="viewport" content="initial-scale=1,maximum-scale=1,user-scalable=no" />
           <link rel="shortcut icon" href={favicon}/>
           <title>{title}</title>
-           <link href='https://api.tiles.mapbox.com/mapbox-gl-js/v0.18.0/mapbox-gl.css' rel='stylesheet' />
-           <link rel="stylesheet" href="/vendor/Materialize/dist/css/materialize.min.css" />
+          <link href='https://api.tiles.mapbox.com/mapbox-gl-js/v0.18.0/mapbox-gl.css' rel='stylesheet' />
+          <link rel="stylesheet" href="/vendor/Materialize/dist/css/materialize.min.css" />
+          <link href="http://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" />
           {styles}
         </head>
         <body>
           <div id="app" dangerouslySetInnerHTML={{ __html: content }}/>
           <script dangerouslySetInnerHTML={{ __html: shims }}/>
+          <script type="text/javascript" src="/vendor/Materialize/dist/js/materialize.min.js" />
           {scripts}
         </body>
       </html>
