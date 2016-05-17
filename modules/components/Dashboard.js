@@ -26,24 +26,25 @@ class Dashboard extends React.Component {
       center: [ -111.950684, 39.419220 ],
       zoom: 6
     }) 
+    let markers = {
+          "type": "FeatureCollection",
+          "features": [ {
+              "type": "Feature",
+              "geometry": {
+                  "type": "Point",
+                  "coordinates": coordinates
+              },
+              "properties": {
+                  "title": "Mapbox SF",
+                  "marker-symbol": "harbor"
+              }
+          } ]
+        }
     map.on('load', function () {
-      console.log(coordinates)
+      console.log(markers)
         map.addSource("markers", {
             "type": "geojson",
-            "data": {
-                "type": "FeatureCollection",
-                "features": [ {
-                    "type": "Feature",
-                    "geometry": {
-                        "type": "Point",
-                        "coordinates": coordinates
-                    },
-                    "properties": {
-                        "title": "You are here",
-                        "marker-symbol": "marker"
-                    }
-                } ]
-            }
+            "data": markers
         })
 
         map.addLayer({
@@ -112,9 +113,8 @@ class Dashboard extends React.Component {
   render() {
     const token = this.props.auth.token
     const id = this.props.auth.id
-    debugger
     let requests = this.state.requests.map( request => {
-      return <li key={request._id}>{request.text}</li>
+      {this.props.coordinates}
     })
 
   return (
