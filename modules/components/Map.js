@@ -15,27 +15,29 @@ class Map extends React.Component {
     let map = new mapboxgl.Map({
       container: 'map',
       style: 'mapbox://styles/mapbox/streets-v8',
-      center: [ -111.950684, 39.419220 ],
-      zoom: 6
+      center: [ -111.89, 40.76 ],
+      zoom: 10
     }) 
+
+    let markers = {
+      "type": "FeatureCollection",
+      "features": [{
+          "type": "Feature",
+          "geometry": {
+              "type": "Point",
+              "coordinates": [-111.89, 40.76]
+          },
+          "properties": {
+              "title": "Mapbox SF",
+              "marker-symbol": "harbor"
+          }
+      }]
+    }
 
     map.on('load', function () {
         map.addSource("markers", {
             "type": "geojson",
-            "data": {
-                "type": "FeatureCollection",
-                "features": [ {
-                    "type": "Feature",
-                    "geometry": {
-                        "type": "Point",
-                        "coordinates": [ -111.89, 40.76 ]
-                    },
-                    "properties": {
-                        "title": "You are here",
-                        "marker-symbol": "marker"
-                    }
-                } ]
-            }
+            "data": markers
         })
 
         map.addLayer({
@@ -50,10 +52,9 @@ class Map extends React.Component {
                 "text-anchor": "top"
             }
         })
+
+        map.addControl(new mapboxgl.Geocoder({ position: 'top-left' }))
     })
-
-    map.addControl(new mapboxgl.Navigation({ position: 'top-left' }))
-
 
   }
 
