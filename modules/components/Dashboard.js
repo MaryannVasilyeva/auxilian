@@ -8,61 +8,7 @@ class Dashboard extends React.Component {
   constructor(props) {
     super(props)
     this.addRequest = this.addRequest.bind(this)
-    this.getCoordinates = this.getCoordinates.bind(this)
-    this.loadMap = this.loadMap.bind(this)
     this.state = { requests: [] }
-  }
-
-  componentDidMount() {
-    this.loadMap([ -111.950684, 39.419220 ])
-  }
-
-  loadMap(coordinates) {
-    let mapboxgl = window.mapboxgl
-    mapboxgl.accessToken = 'pk.eyJ1IjoibXZhc2lseWV2YSIsImEiOiJjaW51dnZobXIxMm5odWdseWVzanI4d2s1In0.RQNmugJct0lHOOlcFyCeRA'
-    let map = new mapboxgl.Map({
-      container: 'map',
-      style: 'mapbox://styles/mapbox/streets-v8',
-      center: [ -111.950684, 39.419220 ],
-      zoom: 6
-    }) 
-    let markers = {
-          "type": "FeatureCollection",
-          "features": [ {
-              "type": "Feature",
-              "geometry": {
-                  "type": "Point",
-                  "coordinates": coordinates
-              },
-              "properties": {
-                  "title": "Mapbox SF",
-                  "marker-symbol": "harbor"
-              }
-          } ]
-        }
-    map.on('load', function () {
-      console.log(markers)
-        map.addSource("markers", {
-            "type": "geojson",
-            "data": markers
-        })
-
-        map.addLayer({
-            "id": "markers",
-            "type": "symbol",
-            "source": "markers",
-            "layout": {
-                "icon-image": "{marker-symbol}-15",
-                "text-field": "{title}",
-                "text-font": [ "Open Sans Semibold", "Arial Unicode MS Bold" ],
-                "text-offset": [ 0, 0.6 ],
-                "text-anchor": "top"
-            }
-        })
-    })
-
-    map.addControl(new mapboxgl.Navigation({ position: 'top-left' }))
-
   }
 
   componentWillMount() {
@@ -75,18 +21,6 @@ class Dashboard extends React.Component {
       data: { id: id }
     }).done( requests => {
       this.setState({ requests: requests })
-    })
-  }
-
-  getCoordinates(e) {
-    e.preventDefault()
-    var address = this.refs.coord.value
-    $.ajax({
-      url: '/api/requests?address=' + this.refs.coord.value,
-      type: 'GET'
-     }).done( response => {
-      this.addRequest(this.props.auth.id, response.features[0].center)
-      this.loadMap(response.features[0].center)
     })
   }
 
@@ -104,6 +38,7 @@ class Dashboard extends React.Component {
        })
      }).done( request => {
        this.setState({ requests: [ ...this.state.requests, request ] })
+       console.log(request)
      })
      this.refs.text.value = ''
      this.refs.desc.value = ''
@@ -114,7 +49,12 @@ class Dashboard extends React.Component {
     const token = this.props.auth.token
     const id = this.props.auth.id
     let requests = this.state.requests.map( request => {
-      {this.props.coordinates}
+      return(<li key={request._id}>{`
+        ${request.properties.title} : 
+        ${request.properties.description} : 
+        ${request.geometry.coordinates} :
+        ${request.properties.userId}
+      `}</li>)
     })
 
   return (
@@ -129,10 +69,11 @@ class Dashboard extends React.Component {
           <input ref="coord" placeholder="Location of Event" />
           <button type="submit">Add</button>
         </form>
+        <ul style={{ float: "right" }}>
+          {requests}
+        </ul>
       </div>
-        <div id='geocoder-container'></div>
-          {this.props.coordinates}
-        <div id="map" className={mapThing}></div>
+      <Map />
     </div>
    )
   }
