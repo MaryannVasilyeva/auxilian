@@ -11,7 +11,7 @@ class Map extends React.Component {
   }
 
     componentDidMount() {
-    this.loadMap([ -111.950684, 39.419220 ])
+    this.loadMap([ -111.89, 40.7 ])
   }
 
   loadMap(coordinates) {
@@ -23,10 +23,22 @@ class Map extends React.Component {
       center: [ -111.89, 40.7 ],
       zoom: 10
     }) 
+
     let markers = {
-          "type": "FeatureCollection",
-          "features": [ ]
-        }
+      "type": "FeatureCollection",
+      "features": [ {
+          "type": "Feature",
+          "geometry": {
+              "type": "Point",
+              "coordinates": coordinates
+          },
+          "properties": {
+              "title": "Test",
+              "marker-symbol": "marker"
+          }
+      } ]
+    }
+
     map.on('load', function () {
       console.log(markers)
         map.addSource("markers", {
@@ -46,6 +58,7 @@ class Map extends React.Component {
                 "text-anchor": "top"
             }
         })
+
       map.addControl(new mapboxgl.Geocoder({ position: 'top-left' }))
     
     })  

@@ -43,6 +43,7 @@ class Dashboard extends React.Component {
      this.refs.text.value = ''
      this.refs.desc.value = ''
      this.refs.coord.value = '' 
+
   }
 
   render() {
