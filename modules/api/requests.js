@@ -38,6 +38,12 @@ export const getRequests = (req, res) => {
   })
 }
 
+export const getAllRequests = (req, res) => {
+  Request.find({}, (err, requests) => {
+    res.json(requests)
+  })
+}
+
 export const getMapBox = (req, res) => {
   if( req.query.address ) {
     client.geocodeForward( req.query.address, (err, response) => {

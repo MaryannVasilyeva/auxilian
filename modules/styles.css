@@ -11,14 +11,21 @@ body {
     width: 50%;
     height: 60%;
 }
-#geocoder-container {
-    position: absolute;
-    top: 0;
-    width: 100%;
-    margin-top: 10px;
-}
-
-#geocoder-container > div {
-    min-width:50%;
-    margin-left:25%;
-}
+#tan{
+  background-color: #F5E4D1;
+}   
+#ltPurple{
+  background-color: #CBB7C5;
+}   
+#violet{
+ background-color: #82829D;
+}   
+#dkBlue{
+  background-color: #44758E;
+}  
+#ltBlue{
+  background-color: #7BB4C8;
+}   
+#green{
+  background-color: #C1E7B9;
+}  
