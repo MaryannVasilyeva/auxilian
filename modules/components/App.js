@@ -5,6 +5,7 @@ import { connect } from 'react-redux'
 import { logout, loggedIn } from './actions'
 import $ from 'jquery'
 
+
 const mapStateToProps = (state) => {
   return { 
     auth: state.auth.isAuthenticated
@@ -75,6 +76,31 @@ class App extends React.Component {
           </div>
         </nav>
         {this.props.children}
+        <footer className="page-footer green lighten-3">
+          <div className="container">
+            <div className="row">
+              <div className="col l6 s12">
+                <h5 className="white-text">Auxilian</h5>
+                <p className="grey-text text-lighten-4">Thank you for visting our website!</p>
+              </div>
+              <div className="col l6 s12">
+                <h5 className="white-text">Links</h5>
+                <ul>
+                  <li><a className="grey-text text-lighten-3" href="http://www.volunteermatch.org/">Volunteer Match</a></li>
+                  <li><a className="grey-text text-lighten-3" href="http://slco.org/volunteer/">SLC Volunteer</a></li>
+                  <li><a className="grey-text text-lighten-3" href="https://www.facebook.com">Facebook</a></li>
+                  <li><a className="grey-text text-lighten-3" href="https://twitter.com">Twitter</a></li>
+                </ul>
+              </div>
+            </div>
+          </div>
+          <div className="footer-copyright">
+            <div className="container">
+            © 2016 Copyright Text
+            <a className="grey-text text-lighten-4 right" href="#!"></a>
+            </div>
+          </div>
+        </footer>
       </div>
     )
   }
