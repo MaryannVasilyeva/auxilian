@@ -50,7 +50,6 @@ class Dashboard extends React.Component {
         }
       }
     })
-
     
     let markers = {
       "type": "FeatureCollection",
@@ -69,6 +68,7 @@ class Dashboard extends React.Component {
         "id": "markers",
         "type": "symbol",
         "source": "markers",
+        "paint": colors,
         "layout": {
             "icon-image": "{marker-symbol}-15",
             "icon-allow-overlap": true,
