@@ -6,10 +6,10 @@ body {
 
 .mapThing {
     position: absolute;
-    top: 200;
+    top: 50;
     bottom: 0;
     width: 50%;
-    height: 60%;
+    height: 90%;
 }
 #tan{
   background-color: #F5E4D1;
