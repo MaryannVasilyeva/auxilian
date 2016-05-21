@@ -14,6 +14,7 @@
     "no-var": 1,
     "jsx-quotes": 1,
     "quotes": 1,
+    "no-mixed-spaces-and-tabs": 1
   },
   "plugins": [
     "react"

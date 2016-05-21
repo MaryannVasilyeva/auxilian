@@ -9,6 +9,7 @@ import passport from 'passport'
 import local from 'passport-local'
 import session from 'express-session'
 import User from './models/user'
+import geocoder from 'geocoder'
 let LocalStrategy = local.Strategy
 
 function getApp(req, res, requestCallback) {
