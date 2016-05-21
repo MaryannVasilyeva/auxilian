@@ -13,9 +13,6 @@ class Dashboard extends React.Component {
   }
 
   componentDidMount() {
-    this.loadMap()
-  }
-  componentWillMount() {
     const id = this.props.auth.id
     $.ajax({
       url: `/api/requests/${id}`,
@@ -25,10 +22,12 @@ class Dashboard extends React.Component {
       data: { id: id }
     }).done( requests => {
       this.setState({ requests: requests })
+      this.loadMap()
     })
   }
 
-  loadMap(coordinates) {
+
+  loadMap() {
     let mapboxgl = window.mapboxgl
     mapboxgl.accessToken = 'pk.eyJ1IjoibXZhc2lseWV2YSIsImEiOiJjaW51dnZobXIxMm5odWdseWVzanI4d2s1In0.RQNmugJct0lHOOlcFyCeRA'
 
@@ -41,6 +40,7 @@ class Dashboard extends React.Component {
      
     let features = this.state.requests.map( request => {
       return {
+
         "type": "Feature",
         "geometry": {
             "type": "Point",
@@ -63,27 +63,28 @@ class Dashboard extends React.Component {
     
 
     map.on('load', function () {
-        map.addSource("markers", {
-            "type": "geojson",
-            "data": markers
-        })
 
-        map.addLayer({
-            "id": "markers",
-            "type": "symbol",
-            "source": "markers",
-            "layout": {
-                "icon-image": "{marker-symbol}-15",
-                "text-field": "{title}",
-                "text-font": [ "Open Sans Semibold", "Arial Unicode MS Bold" ],
-                "text-offset": [ 0, 0.6 ],
-                "text-anchor": "top"
-            }
-        })
+      map.addSource("markers", {
+        "type": "geojson",
+        "data": markers
+      })
+
+      map.addLayer({
+        "id": "markers",
+        "type": "symbol",
+        "source": "markers",
+        "layout": {
+            "icon-image": "{marker-symbol}-15",
+            "text-field": "{title}",
+            "text-font": [ "Open Sans Semibold", "Arial Unicode MS Bold" ],
+            "text-offset": [ 0, 0.6 ],
+            "text-anchor": "top"
+        }
+      })
 
       map.addControl(new mapboxgl.Geocoder({ position: 'top-left' }))
-    
-    })  
+
+    }) 
 
   }
 
@@ -100,25 +101,25 @@ class Dashboard extends React.Component {
   }
 
   addRequest(id, coords) {
-     $.ajax({
-       url: '/api/requests',
-       type: 'POST',
-       dataType: 'JSON',
-       contentType: 'application/json',
-       data: JSON.stringify({ 
-         text: this.refs.text.value, 
-         desc: this.refs.desc.value,
-         coord: coords,
-         id: id 
-       })
-     }).done( request => {
-       this.setState({ requests: [ ...this.state.requests, request ] })
-       console.log(request)
-     })
-     this.refs.text.value = ''
-     this.refs.desc.value = ''
-     this.refs.coord.value = '' 
-
+    $.ajax({
+      url: '/api/requests',
+      type: 'POST',
+      dataType: 'JSON',
+      contentType: 'application/json',
+      data: JSON.stringify({ 
+        text: this.refs.text.value, 
+        desc: this.refs.desc.value,
+        coord: coords,
+        id: id 
+      })
+    }).done( request => {
+      this.setState({ requests: [ ...this.state.requests, request ] })
+      console.log(request)
+      this.refs.text.value = ''
+      this.refs.desc.value = ''
+      this.refs.coord.value = '' 
+      this.loadMap()
+    })
   }
 
   render() {
@@ -142,7 +143,7 @@ class Dashboard extends React.Component {
           <input ref="text" placeholder="Volunteer Event Title" />
           <input ref="desc" placeholder="Description of Event" />
           <input ref="coord" placeholder="Location of Event" />
-          <button type="submit">Add</button>
+          <button className="btn" type="submit">Add</button>
         </form>
         <ul style={{ float: "right" }}>
           {requests}
