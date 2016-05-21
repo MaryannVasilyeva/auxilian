@@ -49,7 +49,7 @@ class Dashboard extends React.Component {
             "title": request.properties.title,
             "description": request.properties.description,
             "userId": request.properties.userId,
-            "marker-symbol": "marker",
+            "marker-symbol": "marker"
         }
       }
     })
@@ -66,7 +66,7 @@ class Dashboard extends React.Component {
             "title": request.properties.title,
             "description": request.properties.description,
             "userId": request.properties.userId,
-            "marker-symbol": "harbor",
+            "marker-symbol": "harbor"
         }
       }
     })
