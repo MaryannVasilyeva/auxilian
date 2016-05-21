@@ -49,7 +49,7 @@ class Dashboard extends React.Component {
             "title": request.properties.title,
             "description": request.properties.description,
             "userId": request.properties.userId,
-            "marker-symbol": "marker"
+            "marker-symbol": "marker",
         }
       }
     })
@@ -66,7 +66,7 @@ class Dashboard extends React.Component {
             "title": request.properties.title,
             "description": request.properties.description,
             "userId": request.properties.userId,
-            "marker-symbol": "marker"
+            "marker-symbol": "harbor",
         }
       }
     })
@@ -93,9 +93,6 @@ class Dashboard extends React.Component {
         "id": "userMarkers",
         "type": "symbol",
         "source": "userMarkers",
-        "paint": {
-          "icon-color": "#47A5C4"
-        },
         "layout": {
             "icon-image": "{marker-symbol}-15",
             "icon-allow-overlap": true,
@@ -115,9 +112,6 @@ class Dashboard extends React.Component {
         "id": "nonUserMarkers",
         "type": "symbol",
         "source": "nonUserMarkers",
-        "paint": {
-          "icon-color": "#B1B2B3"
-        },
         "layout": {
             "icon-image": "{marker-symbol}-15",
             "icon-allow-overlap": true,
