@@ -2,13 +2,7 @@ import Request from '../models/request'
 let MapboxClient = require('mapbox')
 let client = new MapboxClient('pk.eyJ1IjoibXZhc2lseWV2YSIsImEiOiJjaW51dnZobXIxMm5odWdseWVzanI4d2s1In0.RQNmugJct0lHOOlcFyCeRA')
 
-//change this from the todos to the requests
 export const createRequest = (req, res) => {
-  //call geocoder get back data
-  //get lat and long
-  //add to coordinates
-  
-
   new Request({
     geometry: { 
       type: "Point", coordinates: req.body.coord
@@ -31,7 +25,7 @@ export const createRequest = (req, res) => {
 
 export const getRequests = (req, res) => {
   let query = req.query.id ? { 'properties.userId': req.query.id } : {}
-  Request.find(query, (err, requests) => {
+  Request.find(query, ( err, requests) => {
      if (err) 
       console.log(err)
     return res.json(requests)

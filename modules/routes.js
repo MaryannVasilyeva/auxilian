@@ -8,7 +8,8 @@ import Login from './components/Login'
 import Dashboard from './components/Dashboard'
 import About from './components/About'
 import { signUp, signIn } from './api/auth'
-import { createRequest, getRequests, getMapBox } from './api/requests'
+import { getMapBox } from './api/requests'
+import { createRequest, getRequests } from './api/requests'
 import { UserAuthWrapper } from 'redux-auth-wrapper'
 import { push } from 'react-router-redux'
 
@@ -29,9 +30,8 @@ export default (
     <ServerRoute path="/api">
       <ServerRoute path="signup" post={signUp} />
       <ServerRoute path="signin" post={signIn} />
-      <ServerRoute path="requests" post={createRequest} get={getMapBox}> 
-        <ServerRoute path=":id" get={getRequests}  />
-      </ServerRoute>
+      <ServerRoute path="mapbox" get={getMapBox} />
+      <ServerRoute path="requests" post={createRequest} get={getRequests} /> 
     </ServerRoute>
     <Route path="*" status={404} component={NoMatch}/>
   </Route>

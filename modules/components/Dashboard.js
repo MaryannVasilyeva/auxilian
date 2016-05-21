@@ -13,13 +13,9 @@ class Dashboard extends React.Component {
   }
 
   componentDidMount() {
-    const id = this.props.auth.id
     $.ajax({
-      url: `/api/requests/${id}`,
-      type: 'GET',
-      dataType: 'JSON',
-      contentType: 'application/json',
-      data: { id: id }
+      url: '/api/requests',
+      type: 'GET'
     }).done( requests => {
       this.setState({ requests: requests })
       this.loadMap()
@@ -92,7 +88,7 @@ class Dashboard extends React.Component {
     e.preventDefault()
     var address = this.refs.coord.value
     $.ajax({
-      url: '/api/requests?address=' + this.refs.coord.value,
+      url: '/api/mapbox?address=' + this.refs.coord.value,
       type: 'GET'
      }).done( response => {
       this.addRequest(this.props.auth.id, response.features[0].center)
