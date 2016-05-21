@@ -71,6 +71,7 @@ class Dashboard extends React.Component {
         "source": "markers",
         "layout": {
             "icon-image": "{marker-symbol}-15",
+            "icon-allow-overlap": true,
             "text-field": "{title}",
             "text-font": [ "Open Sans Semibold", "Arial Unicode MS Bold" ],
             "text-offset": [ 0, 0.6 ],
@@ -81,6 +82,35 @@ class Dashboard extends React.Component {
       map.addControl(new mapboxgl.Geocoder({ position: 'top-left' }))
 
     }) 
+
+    map.on('click', function (e) {
+        let features = map.queryRenderedFeatures(e.point, { layers: [ 'markers' ] })
+
+        if (!features.length) {
+            return
+        } else {
+          map.flyTo({ center: features[0].geometry.coordinates })
+        }
+
+        let feature = features[0]
+
+        // Populate the popup and set its coordinates
+        // based on the feature found.
+        let popup = new mapboxgl.Popup()
+            .setLngLat(feature.geometry.coordinates)
+            .setHTML(`
+              ${feature.properties.title} <br />
+              ${feature.properties.description} <br />
+              <a href="#">${feature.properties.userId}</a>
+            `)
+            .addTo(map)
+
+    })
+
+    map.on('mousemove', function (e) {
+        let features = map.queryRenderedFeatures(e.point, { layers: [ 'markers' ] })
+        map.getCanvas().style.cursor = (features.length) ? 'pointer' : ''
+    })
 
   }
 
@@ -131,15 +161,12 @@ class Dashboard extends React.Component {
 
   return (
     <div>
-      <div>
-        <h1>Dashboard</h1>
-      </div>
       <div style={{ float: "right" }}>
         <form onSubmit={(e) => this.getCoordinates(e)}>
           <input ref="text" placeholder="Volunteer Event Title" />
           <input ref="desc" placeholder="Description of Event" />
           <input ref="coord" placeholder="Location of Event" />
-          <button className="btn" type="submit">Add</button>
+          <button className="btn"type="submit">Add</button>
         </form>
         <ul style={{ float: "right" }}>
           {requests}
