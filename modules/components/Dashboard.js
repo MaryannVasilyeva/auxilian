@@ -2,7 +2,7 @@ import React from 'react'
 import $ from 'jquery'
 import { connect } from 'react-redux'
 import Map from './Map'
-import { mapThing, big } from '../styles.css'
+import { mapThing, big, requestTitle, thisDiv } from '../styles.css'
 
 class Dashboard extends React.Component {
   constructor(props) {
@@ -196,11 +196,21 @@ class Dashboard extends React.Component {
     const token = this.props.auth.token
     const id = this.props.auth.id
     let requests = this.state.requests.map( request => {
-      return(<li key={request._id}>{`
-        ${request.properties.title} : 
-        ${request.properties.description} : 
-        ${request.geometry.coordinates}
-      `}</li>)
+      return(
+        <div className="row">
+          <div className="col s12 m4">
+             <div className="card blue-grey darken-1">
+               <div className="card-content white-text">
+                  <p key={request._id}>
+                  {request.properties.title} <br/>
+                  {request.properties.description} <br/> 
+                  {request.geometry.coordinates} <br/>
+                  </p>
+              </div>
+          </div>
+        </div>
+      </div>
+      )
     })
 
   return (
@@ -212,9 +222,9 @@ class Dashboard extends React.Component {
           <input ref="coord" placeholder="Location of Event" />
           <button className="btn"type="submit">Add</button>
         </form>
-        <ul style={{ float: "right" }}>
-          {requests}
-        </ul>
+        <br />
+        <h4 id={requestTitle}>Current Requests</h4>
+         <div className={thisDiv}>{requests}</div>
       </div>
       <div>
         <div id="map" className={mapThing}></div>
