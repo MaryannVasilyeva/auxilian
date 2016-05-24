@@ -93,6 +93,9 @@ class Dashboard extends React.Component {
         "id": "userMarkers",
         "type": "symbol",
         "source": "userMarkers",
+        "paint": {
+          "icon-color": "#47A5C4"
+        },
         "layout": {
             "icon-image": "{marker-symbol}-15",
             "icon-allow-overlap": true,
@@ -112,6 +115,9 @@ class Dashboard extends React.Component {
         "id": "nonUserMarkers",
         "type": "symbol",
         "source": "nonUserMarkers",
+        "paint": {
+          "icon-color": "#B1B2B3"
+        },
         "layout": {
             "icon-image": "{marker-symbol}-15",
             "icon-allow-overlap": true,
@@ -201,8 +207,8 @@ class Dashboard extends React.Component {
                <div className="card-content white-text">
                   <p key={request._id}>
                   Title: {request.properties.title} <hr></hr>
-                  Description: {request.properties.description} <hr></hr> 
-                  Address: {request.geometry.coordinates} <br/>
+                  Description: {request.properties.description} <hr></hr>
+                  Address: {request.geometry.coordinates}
                   </p>
               </div>
           </div>
