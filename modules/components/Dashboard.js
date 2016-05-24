@@ -138,8 +138,6 @@ class Dashboard extends React.Component {
 
         let feature = features[0]
 
-        // Populate the popup and set its coordinates
-        // based on the feature found.
         let popup = new mapboxgl.Popup()
             .setLngLat(feature.geometry.coordinates)
             .setHTML(`
@@ -198,13 +196,13 @@ class Dashboard extends React.Component {
     let requests = this.state.requests.map( request => {
       return(
         <div className="row">
-          <div className="col s12 m4">
+          <div className="col s12 m6">
              <div className="card blue-grey darken-1">
                <div className="card-content white-text">
                   <p key={request._id}>
-                  {request.properties.title} <br/>
-                  {request.properties.description} <br/> 
-                  {request.geometry.coordinates} <br/>
+                  Title: {request.properties.title} <hr></hr>
+                  Description: {request.properties.description} <hr></hr> 
+                  Address: {request.geometry.coordinates} <br/>
                   </p>
               </div>
           </div>
