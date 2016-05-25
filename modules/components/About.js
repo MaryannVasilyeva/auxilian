@@ -1,7 +1,8 @@
 import React from 'react'
+import { big } from '../styles.css'
 
 export default () => (
-  <div className="center">
+  <div className="center" id={big}>
     <h2>About Us</h2>
     <br />
     <p>Auxilian was designed and built as a humanitarian effort to connect individuals searching for volunteer work to bring communities closer together.</p>

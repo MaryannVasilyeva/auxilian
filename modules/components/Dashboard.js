@@ -2,7 +2,8 @@ import React from 'react'
 import $ from 'jquery'
 import { connect } from 'react-redux'
 import Map from './Map'
-import { mapThing, big } from '../styles.css'
+import { mapThing, big, blue, help } from '../styles.css'
+import { ResponsiveEmbed } from 'react-bootstrap'
 
 class Dashboard extends React.Component {
   constructor(props) {
@@ -197,21 +198,25 @@ class Dashboard extends React.Component {
     })
 
   return (
-    <div id={ big }>
-      <div style={{ float: "right" }}>
-        <form onSubmit={(e) => this.getCoordinates(e)}>
-          <input ref="text" placeholder="Volunteer Event Title" />
-          <input ref="desc" placeholder="Description of Event" />
-          <input ref="coord" placeholder="Location of Event" />
-          <button className="btn"type="submit">Add</button>
-        </form>
-        <ul style={{ float: "right" }}>
-          {requests}
-        </ul>
+    <div>
+      <div className="row" id={ big }>
+        <div style={{ width: 660, height: 400 }} className="col s12 m6">
+          <ResponsiveEmbed a16by9>
+            <div id="map" className={mapThing}></div>
+          </ResponsiveEmbed>
+        </div>
+        <div className="col s12 m6">
+          <form onSubmit={(e) => this.getCoordinates(e)}>
+            <input ref="text" placeholder="Volunteer Event Title" />
+            <input ref="desc" placeholder="Description of Event" />
+            <input ref="coord" placeholder="Location of Event" />
+            <button className="btn" id={blue} type="submit">Add</button>
+          </form>
+          <ul>
+            {requests}
+          </ul>
+        </div>
       </div>
-      <div>
-        <div id="map" className={mapThing}></div>
-      </div> 
     </div>
    )
   }

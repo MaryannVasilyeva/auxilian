@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { login, signUp } from './actions'
 import { connect } from 'react-redux'
-import { btnPurple } from '../styles.css'
+import { blue } from '../styles.css'
 
 class Login extends Component {
   constructor(props) {
@@ -47,9 +47,10 @@ class Login extends Component {
           <input ref="newEmail" placeholder="email" />
           <input ref="newPass" type="password" placeholder="password"/>
           <br />
-          <button className="btn deep-purple lighten-2" type="submit">Sign Up</button>
+          <button className="btn btn-large" id={blue} type="submit">Sign Up</button>
         </form>
-        <button className="btn deep-purple lighten-3" onClick={this.signUpToggleShow}>Cancel</button>
+        <br />
+        <button className="btn btn-large" id={blue} onClick={this.signUpToggleShow}>Cancel</button>
       </div>
     )
   }
@@ -59,15 +60,16 @@ class Login extends Component {
       <div className="container center">
         <h2>Sign In</h2>
         <form onSubmit={this.signIn}>
-          <label><input ref="email" placeholder="email" /></label>
-          <label><input ref="pass" type="password" placeholder="password" /></label>
+          <input ref="email" placeholder="email" />
+          <input ref="pass" type="password" placeholder="password" />
           <br />
-          <button className="btn deep-purple lighten-2" type="submit">Enter</button>
+          <button className="btn btn-large" id={blue} type="submit">Submit</button>
            {this.state.error && (
              <p>Bad login information</p>
            )}
         </form>
-        <button className="btn deep-purple lighten-3" onClick={this.signInToggleShow}>Cancel</button>
+        <br />
+        <button className="btn btn-large" id={blue} onClick={this.signInToggleShow}>Cancel</button>
       </div>
     )
   }
@@ -75,9 +77,10 @@ class Login extends Component {
   buttons() {
     return (
       <div className="center container">
-        <button className="btn deep-purple lighten-2" onClick={this.signUpToggleShow}>Sign Up</button>
-          
-        <button className="btn deep-purple lighten-2" onClick={this.signInToggleShow}>Sign In</button>
+        <button className="btn btn-large" id={blue} onClick={this.signUpToggleShow}>Sign Up</button>
+        {' '}
+        <button className="btn btn-large" id={blue} onClick={this.signInToggleShow}>Sign In</button>
+        
       </div>
     )
   }

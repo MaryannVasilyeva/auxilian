@@ -1,52 +1,46 @@
 import React from 'react'
 import { Slider, Slide } from 'react-materialize'
 import '../components/home.css'
-
+import Login from './Login'
+import { slides } from '../styles.css'
 class Carousel extends React.Component {
 
   constructor(props) {
     super(props)
   }
-
+  
   render() {
+    
     return (
-      <Slider>
-        <Slide
+      <div>
+      <Slider
+      className={slides} 
+      indicators={false}
+      transition={2000}
+      interval={3000}
+      >
+        <Slide 
         src="http://s20.postimg.org/hkv63rpul/Game_Over.jpg"
-        title="This is our big Tagline!">
-        Here's our small slogan.
+        title="This is our big Tagline!"
+        >
+        This is our small Tagline.
       </Slide>
       <Slide
-        src="http://s20.postimg.org/9kgvfa8wt/Photo_Jul_28_10_10_23_AM.jpg"
+        src="http://ccnwfl.org/wp-content/uploads/2011/11/istock_000016475829medium.jpg"
         title="Left aligned Caption"
         placement="left">
-        Here's our small slogan.
+        This is our small Tagline.
       </Slide>
       <Slide
         src="http://s20.postimg.org/3tqp1k0wt/Manhattan_Henge.jpg"
         title="Right aligned Caption"
         placement="right">
-        Here's our small slogan.
-      </Slide>
-      <Slide
-        src="http://s20.postimg.org/qe5gq3eal/buble_7.jpg"
-        title="Right aligned Caption"
-        placement="right">
-        Here's our small slogan.
-      </Slide>
-      <Slide
-        src="http://s20.postimg.org/hkv63rpul/Game_Over.jpg"
-        title="Right aligned Caption"
-        placement="right">
-        Here's our small slogan.
-      </Slide>
-      <Slide
-        src="http://s20.postimg.org/fmtk2w3od/20141001_190033.jpg"
-        title="Right aligned Caption"
-        placement="right">
-        Here's our small slogan.
+        This is our small Tagline.
       </Slide>
       </Slider>
+      <Login />
+      </div>
+     
     )
   }
 }

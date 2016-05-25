@@ -1,35 +1,77 @@
 body {
   background: #f0f0f0;
-  font-family: sans-serif;
+  font-family: 'Source Sans Pro', sans-serif;
   font-weight: 200;
 }
 
 .mapThing {
     position: absolute;
-    top: 50;
+    top: 100px;
     bottom: 0;
-    width: 50%;
-    height: 90%;
-}
-#tan{
-  background-color: #F5E4D1;
-}   
-#ltPurple{
-  background-color: #CBB7C5;
-}   
-#violet{
- background-color: #82829D;
-}   
-#dkBlue{
-  background-color: #44758E;
+    width: 100%;
+    height: 100%;
 }  
-#ltBlue{
-  background-color: #7BB4C8;
+#blue{
+  background-color: #035563;
 }   
 #green{
-  background-color: #C1E7B9;
+  background-color: #05A194;
 }  
 
 #big{
- height: 900px;
+ height: 500px;
+}
+.logo {
+  height: 100px;
+  margin-top: 0;
+  padding: 0;
+  position: relative;
+}
+#nav {
+  height: 100px;
+  background-color: #05A194;
+  border-radius: 0;
+  text-decoration: none;
+}
+#bluebtn {
+  background-color: #035563;
+  width: 15em;
+}
+.slides {
+  margin-top: 2.5em;
+  margin-bottom: 1.5em;
+}
+.mapsize {
+  min-width: 300px;
+  min-height: 300px;
+}
+.nomargin {
+  margin-top: 0;
+  padding: 0;
+}
+.navItem {
+  font-size: 1.5em;
+  font-family: 'Source Sans Pro', sans-serif;
+  position: center;
+  padding-top: .6em;
+  text-decoration: none;
+}
+.noborder {
+  border: none;
+}
+.inline {
+  display: inline;
+}
+.help {
+  height: auto;
+  width: 50%;
+}
+a:focus {
+  color: #fff;
+  text-decoration: none;
+}
+a:hover {
+  color: #fff;
+  text-decoration: none;
+  background-color: rgba(0,0,0,0.1);
 }
