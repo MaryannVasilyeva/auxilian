@@ -10,8 +10,9 @@ class Login extends Component {
     this.signIn = this.signIn.bind(this)
     this.signInToggleShow = this.signInToggleShow.bind(this)
     this.signUpToggleShow = this.signUpToggleShow.bind(this)
+    this.validateEmail = this.validateEmail.bind(this)
     const redirectLocation = '/dashboard'
-    this.state = { error: false, redirectRoute: redirectLocation, signInShow: false, signUpShow: false }
+    this.state = { error: false, redirectRoute: redirectLocation, signInShow: false, signUpShow: false, errors: false }
   }
 
   signInToggleShow() {
@@ -25,10 +26,12 @@ class Login extends Component {
 
   signUp(event) {
     event.preventDefault()
-
-    const email = this.refs.newEmail.value
-    const pass = this.refs.newPass.value
-    this.props.dispatch(signUp(email, pass, this.state.redirectRoute, this.props.history))
+    this.validateEmail()
+    if (!!this.state.errors) {
+      const email = this.refs.newEmail.value
+      const pass = this.refs.newPass.value
+      this.props.dispatch(signUp(email, pass, this.state.redirectRoute, this.props.history))
+    }
   }
 
   signIn(event) {
@@ -39,13 +42,25 @@ class Login extends Component {
     this.props.dispatch(login(email, pass, this.state.redirectRoute, this.props.history))
   }
 
+  validateEmail() {
+    let email = this.refs.newEmail.value
+    let regex = /^([0-9a-zA-Z]([-_\\.]*[0-9a-zA-Z]+)*)@([0-9a-zA-Z]([-_\\.]*[0-9a-zA-Z]+)*)[\\.]([a-zA-Z]{2,9})$/
+    if (!regex.test(email)) {
+      this.setState({ errors: "Error: Use valid email example@example.com" })
+    } else {
+      this.setState({ errors: false })
+    }
+  }
+
   signUpRender() {
+    let error = this.state.errors ? <p style={{ color: 'red' }}>{this.state.errors}</p> : null
     return(
       <div className="container center">
         <h2>Join Us!</h2>
+        {error}
         <form onSubmit={this.signUp}>
-          <input ref="newEmail" placeholder="email" />
-          <input ref="newPass" type="password" placeholder="password"/>
+          <input ref="newEmail" placeholder="email" required={true} />
+          <input ref="newPass" type="password" placeholder="password" required={true}/>
           <br />
           <button className="btn deep-purple lighten-2" type="submit">Sign Up</button>
         </form>
