@@ -8,6 +8,8 @@ class Dashboard extends React.Component {
   constructor(props) {
     super(props)
     this.addRequest = this.addRequest.bind(this)
+    this.deleteRequest = this.deleteRequest.bind(this)
+    this.getRequests = this.getRequests.bind(this)
     this.loadMap = this.loadMap.bind(this)
     this.state = { requests: [] }
   }
@@ -29,7 +31,7 @@ class Dashboard extends React.Component {
 
     let map = new mapboxgl.Map({
       container: 'map',
-      style: 'mapbox://styles/mapbox/streets-v8',
+      style: 'mapbox://styles/mapbox/streets-v9',
       center: [ -111.89, 40.7 ],
       zoom: 10
     }) 
@@ -49,7 +51,7 @@ class Dashboard extends React.Component {
             "title": request.properties.title,
             "description": request.properties.description,
             "userId": request.properties.userId,
-            "marker-symbol": "marker"
+            "requestId": request._id
         }
       }
     })
@@ -65,8 +67,8 @@ class Dashboard extends React.Component {
         "properties": {
             "title": request.properties.title,
             "description": request.properties.description,
-            "userId": request.properties.userId,
-            "marker-symbol": "harbor"
+            "userId": request.properties.userId
+          
         }
       }
     })
@@ -91,18 +93,11 @@ class Dashboard extends React.Component {
 
       map.addLayer({
         "id": "userMarkers",
-        "type": "symbol",
+        "type": "circle",
         "source": "userMarkers",
         "paint": {
-          "icon-color": "#47A5C4"
-        },
-        "layout": {
-            "icon-image": "{marker-symbol}-15",
-            "icon-allow-overlap": true,
-            "text-field": "{title}",
-            "text-font": [ "Open Sans Semibold", "Arial Unicode MS Bold" ],
-            "text-offset": [ 0, 0.6 ],
-            "text-anchor": "top"
+          "circle-radius": 10,
+          "circle-color": "#1976d2"
         }
       })
 
@@ -113,28 +108,45 @@ class Dashboard extends React.Component {
 
       map.addLayer({
         "id": "nonUserMarkers",
-        "type": "symbol",
+        "type": "circle",
         "source": "nonUserMarkers",
         "paint": {
-          "icon-color": "#B1B2B3"
-        },
-        "layout": {
-            "icon-image": "{marker-symbol}-15",
-            "icon-allow-overlap": true,
-            "text-field": "{title}",
-            "text-font": [ "Open Sans Semibold", "Arial Unicode MS Bold" ],
-            "text-offset": [ 0, 0.6 ],
-            "text-anchor": "top"
+          "circle-radius": 10,
+          "circle-color": "#9575cd"
         }
+        
       })
 
 
       map.addControl(new mapboxgl.Geocoder({ position: 'top-left' }))
 
     }) 
+// create two different map.on for the userMarkers and the nonUserMarkers, the userMarkers should be able to delete. The
+// nonUserMarkers should be able to add them to their current requests list.
 
     map.on('click', function (e) {
-        let features = map.queryRenderedFeatures(e.point, { layers: [ 'markers' ] })
+        let userFeatures = map.queryRenderedFeatures(e.point, { layers: [ 'userMarkers' ] })
+
+        if (!userFeatures.length) {
+            return
+        } else {
+          map.flyTo({ center: userFeatures[0].geometry.coordinates })
+        }
+
+        let userfeature = userFeatures[0]
+
+        let popup = new mapboxgl.Popup()
+            .setLngLat(userfeature.geometry.coordinates)
+            .setHTML(`
+              ${userfeature.properties.title} <br />
+              ${userfeature.properties.description} <br />
+              <a href="#">${userfeature.properties.requestId}</a><br />
+            `)
+            .addTo(map)
+    })
+
+    map.on('click', function (e) {
+        let features = map.queryRenderedFeatures(e.point, { layers: [ 'userMarkers', 'nonUserMarkers' ] })
 
         if (!features.length) {
             return
@@ -143,7 +155,7 @@ class Dashboard extends React.Component {
         }
 
         let feature = features[0]
-
+        
         let popup = new mapboxgl.Popup()
             .setLngLat(feature.geometry.coordinates)
             .setHTML(`
@@ -152,14 +164,12 @@ class Dashboard extends React.Component {
               <a href="#">${feature.properties.userId}</a>
             `)
             .addTo(map)
-
     })
 
     map.on('mousemove', function (e) {
-        let features = map.queryRenderedFeatures(e.point, { layers: [ 'markers' ] })
+        let features = map.queryRenderedFeatures(e.point, { layers: [ 'userMarkers', 'nonUserMarkers' ] })
         map.getCanvas().style.cursor = (features.length) ? 'pointer' : ''
     })
-
   }
 
   getCoordinates(e) {
@@ -173,6 +183,30 @@ class Dashboard extends React.Component {
       this.loadMap(response.features[0].center)
     })
   }
+
+  getRequests() {
+    $.ajax({
+      url: '/api/requests',
+      type: 'GET'
+    }).done( requests => {
+      this.setState({ requests: requests })
+      this.loadMap()
+    })
+  }
+
+deleteRequest(id) {
+   $.ajax({
+     url: '/api/requests/' + id,
+     type: 'DELETE',
+     dataType: 'JSON',
+     contentType: 'application/json',
+     data: JSON.stringify({ id })
+   }).done( request => {
+     this.getRequests()
+     console.log('this is the id ' + id)
+   }).fail( err => {
+   })
+}
 
   addRequest(id, coords) {
     $.ajax({
@@ -188,7 +222,6 @@ class Dashboard extends React.Component {
       })
     }).done( request => {
       this.setState({ requests: [ ...this.state.requests, request ] })
-      console.log(request)
       this.refs.text.value = ''
       this.refs.desc.value = ''
       this.refs.coord.value = '' 
@@ -210,6 +243,7 @@ class Dashboard extends React.Component {
                   Description: {request.properties.description} <hr></hr>
                   Address: {request.geometry.coordinates}
                   </p>
+                  <button className="btn" onClick={() => this.deleteRequest(request._id)}>Delete</button>
               </div>
           </div>
         </div>
@@ -227,8 +261,10 @@ class Dashboard extends React.Component {
           <button className="btn"type="submit">Add</button>
         </form>
         <br />
+        <h4 id={requestTitle}>My Requests</h4>
+        <div className={thisDiv}>{requests}</div>
+        <br />
         <h4 id={requestTitle}>Current Requests</h4>
-         <div className={thisDiv}>{requests}</div>
       </div>
       <div>
         <div id="map" className={mapThing}></div>
