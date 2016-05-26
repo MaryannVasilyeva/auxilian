@@ -29,7 +29,7 @@ class Dashboard extends React.Component {
 
     let map = new mapboxgl.Map({
       container: 'map',
-      style: 'mapbox://styles/mapbox/streets-v8',
+      style: 'mapbox://styles/mapbox/streets-v9',
       center: [ -111.89, 40.7 ],
       zoom: 10
     }) 
@@ -48,8 +48,8 @@ class Dashboard extends React.Component {
         "properties": {
             "title": request.properties.title,
             "description": request.properties.description,
-            "userId": request.properties.userId,
-            "marker-symbol": "marker"
+            "userId": request.properties.userId
+           
         }
       }
     })
@@ -65,8 +65,8 @@ class Dashboard extends React.Component {
         "properties": {
             "title": request.properties.title,
             "description": request.properties.description,
-            "userId": request.properties.userId,
-            "marker-symbol": "marker"
+            "userId": request.properties.userId
+          
         }
       }
     })
@@ -91,18 +91,11 @@ class Dashboard extends React.Component {
 
       map.addLayer({
         "id": "userMarkers",
-        "type": "symbol",
+        "type": "circle",
         "source": "userMarkers",
         "paint": {
-          "icon-color": "#47A5C4"
-        },
-        "layout": {
-            "icon-image": "{marker-symbol}-15",
-            "icon-allow-overlap": true,
-            "text-field": "{title}",
-            "text-font": [ "Open Sans Semibold", "Arial Unicode MS Bold" ],
-            "text-offset": [ 0, 0.6 ],
-            "text-anchor": "top"
+          "circle-radius": 10,
+          "circle-color": "#1976d2"
         }
       })
 
@@ -113,19 +106,13 @@ class Dashboard extends React.Component {
 
       map.addLayer({
         "id": "nonUserMarkers",
-        "type": "symbol",
+        "type": "circle",
         "source": "nonUserMarkers",
         "paint": {
-          "icon-color": "#B1B2B3"
-        },
-        "layout": {
-            "icon-image": "{marker-symbol}-15",
-            "icon-allow-overlap": true,
-            "text-field": "{title}",
-            "text-font": [ "Open Sans Semibold", "Arial Unicode MS Bold" ],
-            "text-offset": [ 0, 0.6 ],
-            "text-anchor": "top"
+          "circle-radius": 10,
+          "circle-color": "#9575cd"
         }
+        
       })
 
 
@@ -134,7 +121,7 @@ class Dashboard extends React.Component {
     }) 
 
     map.on('click', function (e) {
-        let features = map.queryRenderedFeatures(e.point, { layers: [ 'markers' ] })
+        let features = map.queryRenderedFeatures(e.point, { layers: [ 'userMarkers', 'nonUserMarkers' ] })
 
         if (!features.length) {
             return
@@ -158,7 +145,7 @@ class Dashboard extends React.Component {
     })
 
     map.on('mousemove', function (e) {
-        let features = map.queryRenderedFeatures(e.point, { layers: [ 'markers' ] })
+        let features = map.queryRenderedFeatures(e.point, { layers: [ 'userMarkers', 'nonUserMarkers' ] })
         map.getCanvas().style.cursor = (features.length) ? 'pointer' : ''
     })
 
