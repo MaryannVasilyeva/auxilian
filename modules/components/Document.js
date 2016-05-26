@@ -1,6 +1,7 @@
 import React from 'react'
 import favicon from '../favicon.ico'
 import styles from '../styles.css'
+import $ from 'jquery'
 
 const { arrayOf, string, node, object } = React.PropTypes
 
@@ -38,6 +39,8 @@ const Document = React.createClass({
           <link rel='stylesheet' href='/vendor/Materialize/dist/css/materialize.min.css' />
           <link rel='stylesheet' href='https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v1.1.0/mapbox-gl-geocoder.css' />
           <link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.4/themes/smoothness/jquery-ui.css" type="text/css" />
+          <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/latest/css/bootstrap.min.css" />
+          <link href='https://fonts.googleapis.com/css?family=Source+Sans+Pro:400,600italic' rel='stylesheet' type='text/css'/>
           {styles}
         </head>
         <body>
