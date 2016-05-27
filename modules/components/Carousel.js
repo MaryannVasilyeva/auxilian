@@ -13,27 +13,21 @@ class Carousel extends React.Component {
     
     return (
       <div>
-      <Slider
-      className={slides} 
-      indicators={false}
-      transition={2000}
-      interval={3000}
-      >
+      <Slider>
         <Slide 
-        src="http://s20.postimg.org/hkv63rpul/Game_Over.jpg"
-        title="This is our big Tagline!"
+        src="http://s33.postimg.org/a7ns1yb7j/volutnerr.jpg"
+        title="Volunteer opportunities at your fingertips"
         >
         This is our small Tagline.
       </Slide>
       <Slide
-        src="http://ccnwfl.org/wp-content/uploads/2011/11/istock_000016475829medium.jpg"
-        title="Left aligned Caption"
+        src="http://s33.postimg.org/r21fcgxxb/mapboxshow.jpg"
+        title="Interactive Maps Powered by Mapbox"
         placement="left">
-        This is our small Tagline.
       </Slide>
       <Slide
-        src="http://s20.postimg.org/3tqp1k0wt/Manhattan_Henge.jpg"
-        title="Right aligned Caption"
+        src="http://s1295.photobucket.com/user/tashahubner/media/volutnerr_zpsxtec55bf.jpg.html"
+        title="Create a project and build your community"
         placement="right">
         This is our small Tagline.
       </Slide>

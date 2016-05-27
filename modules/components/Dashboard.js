@@ -2,13 +2,15 @@ import React from 'react'
 import $ from 'jquery'
 import { connect } from 'react-redux'
 import Map from './Map'
-import { mapThing, big, blue, help } from '../styles.css'
+import { mapThing, big, requestTitle, thisDiv } from '../styles.css'
 import { ResponsiveEmbed } from 'react-bootstrap'
 
 class Dashboard extends React.Component {
   constructor(props) {
     super(props)
     this.addRequest = this.addRequest.bind(this)
+    this.deleteRequest = this.deleteRequest.bind(this)
+    this.getRequests = this.getRequests.bind(this)
     this.loadMap = this.loadMap.bind(this)
     this.state = { requests: [] }
   }
@@ -49,8 +51,8 @@ class Dashboard extends React.Component {
         "properties": {
             "title": request.properties.title,
             "description": request.properties.description,
-            "userId": request.properties.userId
-           
+            "userId": request.properties.userId,
+            "requestId": request._id
         }
       }
     })
@@ -122,34 +124,53 @@ class Dashboard extends React.Component {
     }) 
 
     map.on('click', function (e) {
-        let features = map.queryRenderedFeatures(e.point, { layers: [ 'userMarkers', 'nonUserMarkers' ] })
+        let userFeatures = map.queryRenderedFeatures(e.point, { layers: [ 'userMarkers' ] })
 
-        if (!features.length) {
+        if (!userFeatures.length) {
             return
         } else {
-          map.flyTo({ center: features[0].geometry.coordinates })
+          map.flyTo({ center: userFeatures[0].geometry.coordinates })
         }
 
-        let feature = features[0]
+        let userfeature = userFeatures[0]
 
-        // Populate the popup and set its coordinates
-        // based on the feature found.
         let popup = new mapboxgl.Popup()
-            .setLngLat(feature.geometry.coordinates)
+            .setLngLat(userfeature.geometry.coordinates)
             .setHTML(`
-              ${feature.properties.title} <br />
-              ${feature.properties.description} <br />
-              <a href="#">${feature.properties.userId}</a>
+              ${userfeature.properties.title} <br />
+              ${userfeature.properties.description} <br />
+              <a href="#">${userfeature.properties.requestId}</a><br />
             `)
             .addTo(map)
+    })
 
+    map.on('click', function (e) {
+        let nonUserFeatures = map.queryRenderedFeatures(e.point, { layers: [ 'nonUserMarkers' ] })
+
+        if (!nonUserFeatures.length) {
+            return
+        } else {
+          map.flyTo({ center: nonUserFeatures[0].geometry.coordinates })
+        }
+
+        let nonuserfeature = nonUserFeatures[0]
+
+        let popup = new mapboxgl.Popup()
+            .setLngLat(nonuserfeature.geometry.coordinates)
+            .setHTML(`
+              ${nonuserfeature.properties.title} <br />
+              ${nonuserfeature.properties.description} <br />
+              <a href="#">${nonuserfeature.properties.userId}</a>
+            `)
+            .addTo(map)
     })
 
     map.on('mousemove', function (e) {
-        let features = map.queryRenderedFeatures(e.point, { layers: [ 'userMarkers', 'nonUserMarkers' ] })
-        map.getCanvas().style.cursor = (features.length) ? 'pointer' : ''
+        let userfeatures = map.queryRenderedFeatures(e.point, { layers: [ 'userMarkers' ] })
+        map.getCanvas().style.cursor = (userfeatures.length) ? 'pointer' : ''
+        let nonuserfeatures = map.queryRenderedFeatures(e.point, { layers: [ 'nonUserMarkers' ] })
+        map.getCanvas().style.cursor = (nonuserfeatures.length) ? 'pointer' : ''
     })
-
   }
 
   getCoordinates(e) {
@@ -163,6 +184,30 @@ class Dashboard extends React.Component {
       this.loadMap(response.features[0].center)
     })
   }
+
+  getRequests() {
+    $.ajax({
+      url: '/api/requests',
+      type: 'GET'
+    }).done( requests => {
+      this.setState({ requests: requests })
+      this.loadMap()
+    })
+  }
+
+deleteRequest(id) {
+   $.ajax({
+     url: '/api/requests/' + id,
+     type: 'DELETE',
+     dataType: 'JSON',
+     contentType: 'application/json',
+     data: JSON.stringify({ id })
+   }).done( request => {
+     this.getRequests()
+     console.log('this is the id ' + id)
+   }).fail( err => {
+   })
+}
 
   addRequest(id, coords) {
     $.ajax({
@@ -178,7 +223,6 @@ class Dashboard extends React.Component {
       })
     }).done( request => {
       this.setState({ requests: [ ...this.state.requests, request ] })
-      console.log(request)
       this.refs.text.value = ''
       this.refs.desc.value = ''
       this.refs.coord.value = '' 
@@ -190,33 +234,43 @@ class Dashboard extends React.Component {
     const token = this.props.auth.token
     const id = this.props.auth.id
     let requests = this.state.requests.map( request => {
-      return(<li key={request._id}>{`
-        ${request.properties.title} : 
-        ${request.properties.description} : 
-        ${request.geometry.coordinates}
-      `}</li>)
+      return(
+        <div className="row">
+          <div className="col s12 m6">
+             <div className="card blue-grey darken-1">
+               <div className="card-content white-text">
+                  <div key={request._id}>
+                  Title: {request.properties.title} <hr></hr>
+                  Description: {request.properties.description} <hr></hr>
+                  Address: {request.geometry.coordinates}
+                  </div>
+                  <button className="btn" onClick={() => this.deleteRequest(request._id)}>Delete</button>
+              </div>
+          </div>
+        </div>
+      </div>
+      )
     })
 
   return (
-    <div>
-      <div className="row" id={ big }>
-        <div style={{ width: 660, height: 400 }} className="col s12 m6">
-          <ResponsiveEmbed a16by9>
-            <div id="map" className={mapThing}></div>
-          </ResponsiveEmbed>
-        </div>
-        <div className="col s12 m6">
-          <form onSubmit={(e) => this.getCoordinates(e)}>
-            <input ref="text" placeholder="Volunteer Event Title" />
-            <input ref="desc" placeholder="Description of Event" />
-            <input ref="coord" placeholder="Location of Event" />
-            <button className="btn" id={blue} type="submit">Add</button>
-          </form>
-          <ul>
-            {requests}
-          </ul>
-        </div>
+    <div className="row" id={ big }>
+      <div style={{ width: 660, height: 400 }} className="col s12 m6">
+        <ResponsiveEmbed a16by9>
+          <div id="map" className={mapThing}></div>
+        </ResponsiveEmbed>
       </div>
+      <div className="col s12 m6">
+        <form onSubmit={(e) => this.getCoordinates(e)}>
+          <input type="text" ref="text" placeholder="Volunteer Event Title" />
+          <input type="text" ref="desc" placeholder="Description of Event" />
+          <input type="text" ref="coord" placeholder="Location of Event" />
+          <button className="btn"type="submit">Add</button>
+        </form>
+        <br />
+        <h4 id={requestTitle}>My Requests</h4>
+        <div className={thisDiv}>{requests}</div>
+        <br />
+      </div> 
     </div>
    )
   }
@@ -229,3 +283,4 @@ const mapStateToProps = (state) => {
 }
 
 export default connect(mapStateToProps)(Dashboard)
+

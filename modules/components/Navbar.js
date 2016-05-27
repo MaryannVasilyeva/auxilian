@@ -51,10 +51,13 @@ class Navigation extends React.Component {
               >
                 Log out
               </a>
-            ) : (<Link to="/login" className={navItem}>Sign In</Link>)}
+            ) : (<Link to="/" className={navItem}>Sign In</Link>)}
             </li>
             <li>
             {this.props.auth ? (<Link to="/dashboard" className={navItem} >Dashboard</Link>) : f => f}
+            </li>
+            <li>
+            {this.props.auth ? (<Link to="/account" className={navItem} >Account</Link>) : f => f}
             </li>
             <li><Link to="/about" className={navItem}>About</Link></li>
           </ul>

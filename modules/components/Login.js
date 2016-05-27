@@ -41,9 +41,9 @@ class Login extends Component {
 
   signUpRender() {
     return(
-      <div className="container center">
+      <div className="container center" style={{ width: 400 }}>
         <h2>Join Us!</h2>
-        <form onSubmit={this.signUp}>
+        <form onSubmit={ (e) => {this.signUp}}>
           <input ref="newEmail" placeholder="email" />
           <input ref="newPass" type="password" placeholder="password"/>
           <br />
@@ -57,10 +57,10 @@ class Login extends Component {
 
   signInRender() {
     return(
-      <div className="container center">
+      <div className="container center" style={{ width: 400 }}>
         <h2>Sign In</h2>
-        <form onSubmit={this.signIn}>
-          <input ref="email" placeholder="email" />
+        <form onSubmit={ (e) => {this.signIn}}>
+          <input type="text" ref="email" placeholder="email" />
           <input ref="pass" type="password" placeholder="password" />
           <br />
           <button className="btn btn-large" id={blue} type="submit">Submit</button>
@@ -76,7 +76,7 @@ class Login extends Component {
 
   buttons() {
     return (
-      <div className="center container">
+      <div className="center container" style={{ width: 400 }}>
         <button className="btn btn-large" id={blue} onClick={this.signUpToggleShow}>Sign Up</button>
         {' '}
         <button className="btn btn-large" id={blue} onClick={this.signInToggleShow}>Sign In</button>

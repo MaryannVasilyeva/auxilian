@@ -3,7 +3,6 @@ import React from 'react'
 import { Route, IndexRoute } from 'react-router'
 import { ServerRoute } from 'react-project'
 import App from './components/App'
-// import Home from './components/Home'
 import Carousel from './components/Carousel'
 import NoMatch from './components/NoMatch'
 import Login from './components/Login'
@@ -11,7 +10,7 @@ import Dashboard from './components/Dashboard'
 import About from './components/About'
 import { signUp, signIn } from './api/auth'
 import { getMapBox } from './api/requests'
-import { createRequest, getRequests } from './api/requests'
+import { createRequest, getRequests, deleteRequest } from './api/requests'
 import { UserAuthWrapper } from 'redux-auth-wrapper'
 import { push } from 'react-router-redux'
 
@@ -34,8 +33,11 @@ export default (
       <ServerRoute path="signup" post={signUp} />
       <ServerRoute path="signin" post={signIn} />
       <ServerRoute path="mapbox" get={getMapBox} />
-      <ServerRoute path="requests" post={createRequest} get={getRequests} /> 
+      <ServerRoute path="requests" post={createRequest} get={getRequests}>
+        <ServerRoute path=":id" delete={deleteRequest} /> 
+      </ServerRoute>
     </ServerRoute>
     <Route path="*" status={404} component={NoMatch}/>
   </Route>
 )
+

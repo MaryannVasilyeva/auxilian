@@ -26,12 +26,6 @@ class App extends React.Component {
   }
 
 
-  // componentDidMount() {
-  //   // after component loads initialize materialize sidebar javascript
-  //   // this is not working yet
-  //   $('.button-collapse').sideNav()
-  // }
-
   render() {
     return (
       <div>
