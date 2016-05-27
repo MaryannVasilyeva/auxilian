@@ -17,9 +17,9 @@ export default () => (
       <table className='col l6 s12'>
         <tbody>
           <tr>
-            <td><img className='z-depth-3' src='http://s20.postimg.org/5ox49hhul/tasha1.jpg' /></td>
-            <td><img className='z-depth-3' src='http://s20.postimg.org/544b1kkgt/AC_Head_Shot_copy.jpg' /></td>
-            <td><img className='z-depth-3' src='http://s20.postimg.org/5ox49hhul/tasha1.jpg' /></td>
+            <td><img className='z-depth-3' src='http://s20.postimg.org/nssqx3nq5/tasha5.jpg' height='23%' /></td>
+            <td><img className='z-depth-3' src='http://s20.postimg.org/ybo58j10d/AC4.jpg' height='99%' /></td>
+            <td><img className='z-depth-3' src='http://s20.postimg.org/g6b6uh1i5/Maryann5.jpg' height='99%' /></td>
           </tr>
           <tr>
             <td>Tasha Hubner</td>
@@ -28,5 +28,6 @@ export default () => (
           </tr>
         </tbody>
       </table>
+      <br />
   </div>
 )

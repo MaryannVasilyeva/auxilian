@@ -27,7 +27,7 @@ class Login extends Component {
   signUp(event) {
     event.preventDefault()
     this.validateEmail()
-    if (!!this.state.errors) {
+    if (!this.state.errors) {
       const email = this.refs.newEmail.value
       const pass = this.refs.newPass.value
       this.props.dispatch(signUp(email, pass, this.state.redirectRoute, this.props.history))
