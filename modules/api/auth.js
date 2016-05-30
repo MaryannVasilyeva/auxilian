@@ -6,7 +6,7 @@ export const signUp = (req, res) => {
     if (err) {
       return res.status(500).json(err.message)
     }
-    return res.json({ authenticated: true, id: user._id, email: user.username })
+    return res.json({ authenticated: true, id: user._id })
   })
 }
 
@@ -21,7 +21,7 @@ export const signIn = (req, res) => {
         return res.json(500, err)
       if (passwordErr)
         return res.json(500, passwordErr.message)
-      return res.json({ authenticated: true, id: user._id, email: user.username })
+      return res.json({ authenticated: true, id: user._id })
     })
   })
 }

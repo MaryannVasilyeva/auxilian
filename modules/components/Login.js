@@ -1,27 +1,24 @@
 import React, { Component } from 'react'
 import { login, signUp } from './actions'
 import { connect } from 'react-redux'
-import { blue } from '../styles.css'
+import $ from 'jquery'
 
 class Login extends Component {
   constructor(props) {
     super(props)
     this.signUp = this.signUp.bind(this)
     this.signIn = this.signIn.bind(this)
-    this.signInToggleShow = this.signInToggleShow.bind(this)
-    this.signUpToggleShow = this.signUpToggleShow.bind(this)
     const redirectLocation = '/dashboard'
-    this.state = { error: false, redirectRoute: redirectLocation, signInShow: false, signUpShow: false }
+    this.state = { error: false, redirectRoute: redirectLocation }
   }
-
-  signInToggleShow() {
-    this.setState({ signInShow: !this.state.signInShow })
+  componentDidMount() {
+    $('#up').click( function () {
+      $('#su').toggle('show')
+    }),
+    $('#in').click( function () {
+      $('#si').toggle('show')
+    })
   }
-
-  signUpToggleShow() {
-    this.setState({ signUpShow: !this.state.signUpShow })
-  }
-
 
   signUp(event) {
     event.preventDefault()
@@ -29,6 +26,7 @@ class Login extends Component {
     const email = this.refs.newEmail.value
     const pass = this.refs.newPass.value
     this.props.dispatch(signUp(email, pass, this.state.redirectRoute, this.props.history))
+    this.refs.signUpForm.reset()
   }
 
   signIn(event) {
@@ -37,62 +35,34 @@ class Login extends Component {
     const email = this.refs.email.value
     const pass = this.refs.pass.value
     this.props.dispatch(login(email, pass, this.state.redirectRoute, this.props.history))
+    this.refs.signInForm.reset()
   }
-
-  signUpRender() {
-    return(
-      <div className="container center" style={{ width: 400 }}>
-        <h2>Join Us!</h2>
-        <form onSubmit={ (e) => {this.signUp}}>
-          <input ref="newEmail" placeholder="email" />
-          <input ref="newPass" type="password" placeholder="password"/>
-          <br />
-          <button className="btn btn-large" id={blue} type="submit">Sign Up</button>
-        </form>
-        <br />
-        <button className="btn btn-large" id={blue} onClick={this.signUpToggleShow}>Cancel</button>
-      </div>
-    )
-  }
-
-  signInRender() {
-    return(
-      <div className="container center" style={{ width: 400 }}>
-        <h2>Sign In</h2>
-        <form onSubmit={ (e) => {this.signIn}}>
-          <input type="text" ref="email" placeholder="email" />
-          <input ref="pass" type="password" placeholder="password" />
-          <br />
-          <button className="btn btn-large" id={blue} type="submit">Submit</button>
-           {this.state.error && (
-             <p>Bad login information</p>
-           )}
-        </form>
-        <br />
-        <button className="btn btn-large" id={blue} onClick={this.signInToggleShow}>Cancel</button>
-      </div>
-    )
-  }
-
-  buttons() {
-    return (
-      <div className="center container" style={{ width: 400 }}>
-        <button className="btn btn-large" id={blue} onClick={this.signUpToggleShow}>Sign Up</button>
-        {' '}
-        <button className="btn btn-large" id={blue} onClick={this.signInToggleShow}>Sign In</button>
-        
-      </div>
-    )
-  }
-
 
   render() {
-    if (this.state.signInShow) 
-      return this.signInRender()
-    else if (this.state.signUpShow)
-      return this.signUpRender()
-    else
-      return this.buttons()
+    return (
+      <div className="container">
+      <div className="row">
+        <div className="col s12 m6 center">
+          <h2 className="btn-large" id="up">Sign Up</h2>
+          <form id="su" style={{ display: 'none' }} ref="signUpForm" onSubmit={this.signUp}>
+            <input type="text" ref="newEmail" placeholder="email" />
+            <input type="password" ref="newPass" placeholder="password"/>
+            <br />
+            <button className="btn" type="submit">sign up</button>
+          </form>
+        </div>
+        <div className="col s12 m6 center">
+          <h2 className="btn-large" id="in">Sign In</h2>
+          <form id="si" style={{ display: 'none' }} ref="signInForm" onSubmit={this.signIn}>
+            <input type="text" ref="email" placeholder="email" />
+            <input type="password" ref="pass" placeholder="password" />
+            <br />
+            <button className="btn" type="submit">login</button>
+          </form>
+        </div>
+      </div>
+      </div>
+    )
   }
 }
 

@@ -58,4 +58,3 @@ export const loggedIn = (id, token) => {
   }
 }
 
-

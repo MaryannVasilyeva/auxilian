@@ -2,8 +2,9 @@ import React from 'react'
 import $ from 'jquery'
 import { connect } from 'react-redux'
 import Map from './Map'
-import { mapThing, big, requestTitle, thisDiv } from '../styles.css'
+import { mapThing, big, requestTitle, thisDiv, hideDiv } from '../styles.css'
 import { ResponsiveEmbed } from 'react-bootstrap'
+import { Collapsible, CollapsibleItem } from 'react-materialize'
 
 class Dashboard extends React.Component {
   constructor(props) {
@@ -22,6 +23,12 @@ class Dashboard extends React.Component {
     }).done( requests => {
       this.setState({ requests: requests })
       this.loadMap()
+    }),
+    $('#add').click( function () {
+      $('#addForm').toggle('show')
+    }),
+    $('#serve').click( function () {
+      $('#list').toggle('show')
     })
   }
 
@@ -43,16 +50,16 @@ class Dashboard extends React.Component {
     let userFeatures = userRequests.map( request => {
       return {
 
-        "type": "Feature",
-        "geometry": {
-            "type": "Point",
-            "coordinates": request.geometry.coordinates
+        'type': 'Feature',
+        'geometry': {
+            'type': 'Point',
+            'coordinates': request.geometry.coordinates
         },
-        "properties": {
-            "title": request.properties.title,
-            "description": request.properties.description,
-            "userId": request.properties.userId,
-            "requestId": request._id
+        'properties': {
+            'title': request.properties.title,
+            'description': request.properties.description,
+            'userId': request.properties.userId,
+            'requestId': request._id
         }
       }
     })
@@ -60,60 +67,60 @@ class Dashboard extends React.Component {
     let nonUserFeatures = nonUserRequests.map( request => {
       return {
 
-        "type": "Feature",
-        "geometry": {
-            "type": "Point",
-            "coordinates": request.geometry.coordinates
+        'type': 'Feature',
+        'geometry': {
+            'type': 'Point',
+            'coordinates': request.geometry.coordinates
         },
-        "properties": {
-            "title": request.properties.title,
-            "description": request.properties.description,
-            "userId": request.properties.userId
+        'properties': {
+            'title': request.properties.title,
+            'description': request.properties.description,
+            'userId': request.properties.userId
           
         }
       }
     })
 
     let userMarkers = {
-      "type": "FeatureCollection",
-      "features": userFeatures
+      'type': 'FeatureCollection',
+      'features': userFeatures
     }
 
     let nonUserMarkers = {
-      "type": "FeatureCollection",
-      "features": nonUserFeatures
+      'type': 'FeatureCollection',
+      'features': nonUserFeatures
     }
     
 
     map.on('load', function () {
 
-      map.addSource("userMarkers", {
-        "type": "geojson",
-        "data": userMarkers
+      map.addSource('userMarkers', {
+        'type': 'geojson',
+        'data': userMarkers
       })
 
       map.addLayer({
-        "id": "userMarkers",
-        "type": "circle",
-        "source": "userMarkers",
-        "paint": {
-          "circle-radius": 10,
-          "circle-color": "#1976d2"
+        'id': 'userMarkers',
+        'type': 'circle',
+        'source': 'userMarkers',
+        'paint': {
+          'circle-radius': 10,
+          'circle-color': '#1976d2'
         }
       })
 
-      map.addSource("nonUserMarkers", {
-        "type": "geojson",
-        "data": nonUserMarkers
+      map.addSource('nonUserMarkers', {
+        'type': 'geojson',
+        'data': nonUserMarkers
       })
 
       map.addLayer({
-        "id": "nonUserMarkers",
-        "type": "circle",
-        "source": "nonUserMarkers",
-        "paint": {
-          "circle-radius": 10,
-          "circle-color": "#9575cd"
+        'id': 'nonUserMarkers',
+        'type': 'circle',
+        'source': 'nonUserMarkers',
+        'paint': {
+          'circle-radius': 10,
+          'circle-color': '#9575cd'
         }
         
       })
@@ -175,13 +182,12 @@ class Dashboard extends React.Component {
 
   getCoordinates(e) {
     e.preventDefault()
-    var address = this.refs.coord.value
+    let address = this.refs.coord.value
     $.ajax({
       url: '/api/mapbox?address=' + this.refs.coord.value,
       type: 'GET'
      }).done( response => {
-      this.addRequest(this.props.auth.id, response.features[0].center)
-      this.loadMap(response.features[0].center)
+      this.addRequest(this.props.auth.id, this.props.auth.email, address, response.features[0].center)
     })
   }
 
@@ -195,21 +201,21 @@ class Dashboard extends React.Component {
     })
   }
 
-deleteRequest(id) {
-   $.ajax({
-     url: '/api/requests/' + id,
-     type: 'DELETE',
-     dataType: 'JSON',
-     contentType: 'application/json',
-     data: JSON.stringify({ id })
-   }).done( request => {
-     this.getRequests()
-     console.log('this is the id ' + id)
-   }).fail( err => {
-   })
-}
+  deleteRequest(id) {
+     $.ajax({
+       url: '/api/requests/' + id,
+       type: 'DELETE',
+       dataType: 'JSON',
+       contentType: 'application/json',
+       data: JSON.stringify({ id })
+     }).done( request => {
+       this.getRequests()
+       console.log('this is the id ' + id)
+     }).fail( err => {
+     })
+  }
 
-  addRequest(id, coords) {
+  addRequest(id, email, address, coords) {
     $.ajax({
       url: '/api/requests',
       type: 'POST',
@@ -219,7 +225,9 @@ deleteRequest(id) {
         text: this.refs.text.value, 
         desc: this.refs.desc.value,
         coord: coords,
-        id: id 
+        id: id,
+        address: address,
+        email: email 
       })
     }).done( request => {
       this.setState({ requests: [ ...this.state.requests, request ] })
@@ -229,26 +237,23 @@ deleteRequest(id) {
       this.loadMap()
     })
   }
+  
 
   render() {
     const token = this.props.auth.token
     const id = this.props.auth.id
     let requests = this.state.requests.map( request => {
       return(
-        <div className="row">
-          <div className="col s12 m6">
-             <div className="card blue-grey darken-1">
-               <div className="card-content white-text">
-                  <div key={request._id}>
-                  Title: {request.properties.title} <hr></hr>
-                  Description: {request.properties.description} <hr></hr>
-                  Address: {request.geometry.coordinates}
-                  </div>
-                  <button className="btn" onClick={() => this.deleteRequest(request._id)}>Delete</button>
-              </div>
-          </div>
-        </div>
-      </div>
+        <CollapsibleItem key={request._id} header={request.properties.title} icon="place">
+          Description: {request.properties.description} 
+          <br />
+          Address: {request.properties.address}
+          <br />
+          Contact: {request.properties.username}
+          <br />
+          {(id === request.properties.userId) ? (<button className="btn" onClick={() => this.deleteRequest(request._id)}>Delete</button>) : f => f}
+          
+        </CollapsibleItem>
       )
     })
 
@@ -259,17 +264,24 @@ deleteRequest(id) {
           <div id="map" className={mapThing}></div>
         </ResponsiveEmbed>
       </div>
-      <div className="col s12 m6">
-        <form onSubmit={(e) => this.getCoordinates(e)}>
-          <input type="text" ref="text" placeholder="Volunteer Event Title" />
-          <input type="text" ref="desc" placeholder="Description of Event" />
-          <input type="text" ref="coord" placeholder="Location of Event" />
-          <button className="btn"type="submit">Add</button>
-        </form>
+      <div className="col s12 m6 center">
+        <div style={{ height: '220px' }}>
+          <h2 id="add" className="btn">Add a Volunteer Event</h2>
+          <form id="addForm" className={hideDiv} style={{ display: 'none' }} onSubmit={(e) => this.getCoordinates(e)}>
+            <input type="text" ref="text" placeholder="Volunteer Event Title" />
+            <input type="text" ref="desc" placeholder="Description of Event" />
+            <input type="text" ref="coord" placeholder="Location of Event" />
+            <button className="btn"type="submit">Add</button>
+          </form>
+        </div>
         <br />
-        <h4 id={requestTitle}>My Requests</h4>
-        <div className={thisDiv}>{requests}</div>
-        <br />
+        <h4 className="btn" id="serve">Service Opportunities</h4>
+        <div id="list" className={hideDiv} style={{ display: 'none' }}>
+          <input type="text" ref="search" />
+          <Collapsible popout>
+            {requests}
+          </Collapsible>
+        </div>
       </div> 
     </div>
    )

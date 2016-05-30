@@ -5,11 +5,12 @@ let client = new MapboxClient('pk.eyJ1IjoibXZhc2lseWV2YSIsImEiOiJjaW51dnZobXIxMm
 export const createRequest = (req, res) => {
   new Request({
     geometry: { 
-      type: "Point", coordinates: req.body.coord
+      type: 'Point', coordinates: req.body.coord
     },
     properties: {
       title: req.body.text,
       description: req.body.desc,
+      address: req.body.address,
       date: new Date(),
       userId: req.body.id
     }

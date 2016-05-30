@@ -6,7 +6,7 @@ import { logout, loggedIn } from './actions'
 import $ from 'jquery'
 import { logo, nav, green, nomargin, navItem, noborder } from '../styles.css'
 import Login from './Login'
-import { Navbar, NavItem, Nav, Image } from 'react-bootstrap'
+import { Navbar, NavItem, Image } from 'react-bootstrap'
 
 
 const mapStateToProps = (state) => {
@@ -15,7 +15,7 @@ const mapStateToProps = (state) => {
   }
 }
 
-class Navigation extends React.Component {
+class Nav extends React.Component {
   constructor(props) {
     super(props)
   }
@@ -31,7 +31,7 @@ class Navigation extends React.Component {
         <Navbar.Header>
           <Navbar.Brand className={nomargin}>
             <a href="/">
-              <Image className={logo} responsive src='http://i1295.photobucket.com/albums/b626/tashahubner/logowhite_zpsjs30hbvu.png' />
+              <Image className={logo} responsive src="http://i1295.photobucket.com/albums/b626/tashahubner/logowhite_zpsjs30hbvu.png" />
             </a>
           </Navbar.Brand>
           <Navbar.Toggle className={noborder} id={green}/>
@@ -45,19 +45,16 @@ class Navigation extends React.Component {
                   {
                     e.preventDefault()
                     this.props.dispatch(logout())
-                    this.props.history.push('/')
+                    this.props.history.push('/login')
                   }
                 }}
               >
                 Log out
               </a>
-            ) : (<Link to="/" className={navItem}>Sign In</Link>)}
+            ) : (<Link to="/login" className={navItem}>Sign In</Link>)}
             </li>
             <li>
             {this.props.auth ? (<Link to="/dashboard" className={navItem} >Dashboard</Link>) : f => f}
-            </li>
-            <li>
-            {this.props.auth ? (<Link to="/account" className={navItem} >Account</Link>) : f => f}
             </li>
             <li><Link to="/about" className={navItem}>About</Link></li>
           </ul>
@@ -67,4 +64,4 @@ class Navigation extends React.Component {
   }
 }
 
-export default connect(mapStateToProps, null)(Navigation)
+export default connect(mapStateToProps, null)(Nav)

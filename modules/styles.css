@@ -101,6 +101,10 @@ input[type='password'] {
     align-items: center;
     justify-content: center;
 }
+.hideDiv {
+  background: #f0f0f0;
+  padding: 100, 50, 100, 50;
+}
 
 
 

@@ -5,15 +5,8 @@ import { connect } from 'react-redux'
 import { logout, loggedIn } from './actions'
 import $ from 'jquery'
 import Login from './Login'
-import Navbar from './Navbar'
+import Nav from './Nav'
 import Footer from './Footer'
-
-
-const mapStateToProps = (state) => {
-  return { 
-    auth: state.auth.isAuthenticated
-  }
-}
 
 class App extends React.Component {
   constructor(props) {
@@ -29,11 +22,17 @@ class App extends React.Component {
   render() {
     return (
       <div>
-        <Navbar />
+        <Nav />
         {this.props.children}
         <Footer />
       </div>
     )
+  }
+}
+
+const mapStateToProps = (state) => {
+  return { 
+    auth: state.auth.isAuthenticated
   }
 }
 
