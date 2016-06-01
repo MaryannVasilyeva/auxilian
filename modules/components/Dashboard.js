@@ -2,10 +2,11 @@ import React from 'react'
 import $ from 'jquery'
 import { connect } from 'react-redux'
 import Map from './Map'
-import { mapThing, big, requestTitle, thisDiv, hideDiv } from '../styles.css'
+import { mapThing, big, requestTitle, thisDiv, hideDiv, blue } from '../styles.css'
 import { ResponsiveEmbed } from 'react-bootstrap'
 import { Collapsible, CollapsibleItem } from 'react-materialize'
 import { addRequests } from './actions'
+import List from './List'
 
 class Dashboard extends React.Component {
   constructor(props) {
@@ -262,30 +263,25 @@ class Dashboard extends React.Component {
     })
 
   return (
-    <div className="row" id={ big }>
+    <div id={ big }>
+      <div className="row">
       <div style={{ width: 660, height: 400 }} className="col s12 m6">
         <ResponsiveEmbed a16by9>
           <div id="map" className={mapThing}></div>
         </ResponsiveEmbed>
       </div>
-      <div className="col s12 m6 center">
-        <div style={{ height: '250px' }}>
+      <List />
+      </div>
+      <div className="center">
+        <div style={{ width: '40%' }}>
           <h2 id="add" className="btn">Add a Volunteer Event</h2>
           <form id="addForm" className={hideDiv} style={{ display: 'none' }} onSubmit={(e) => this.getCoordinates(e)}>
             <input type="text" ref="text" placeholder="Volunteer Event Title" />
             <input type="text" ref="desc" placeholder="Description of Event" />
             <input type="text" ref="coord" placeholder="Location of Event" />
             <input type="text" ref="info" placeholder="Contact Email or Phone Number" />
-            <button className="btn"type="submit">Add</button>
+            <button id={blue} className="btn"type="submit">Add</button>
           </form>
-        </div>
-        <br />
-        <h4 className="btn" id="serve">Service Opportunities</h4>
-        <div id="list" className={hideDiv} style={{ display: 'none' }}>
-          <input type="text" ref="search" />
-          <Collapsible popout>
-            {requests}
-          </Collapsible>
         </div>
       </div> 
     </div>

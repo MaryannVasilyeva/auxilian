@@ -45,7 +45,6 @@ class Nav extends React.Component {
                   {
                     e.preventDefault()
                     this.props.dispatch(logout())
-                    this.props.history.push('/login')
                   }
                 }}
               >

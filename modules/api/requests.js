@@ -27,6 +27,7 @@ export const createRequest = (req, res) => {
 
 export const getRequests = (req, res) => {
   let query = req.query.id ? { 'properties.userId': req.query.id } : {}
+  console.log(query)
   Request.find(query, ( err, requests ) => {
      if (err) 
       console.log(err)

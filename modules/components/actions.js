@@ -84,9 +84,26 @@ export const fetchRequests = () => {
 }
 
 export const searchRequests = (search) => {
-  return {
-    type: 'SEARCH_REQUESTS',
-    search
+  return (dispatch) => {
+    $.ajax({
+      url: '/api/requests',
+      type: 'GET'
+    }).done( res => {
+      let matches = []
+      let regex = new RegExp(search, 'i')
+      res.map( request => {
+        if (regex.test(request.properties.description) || 
+            regex.test(request.properties.title) ||
+            regex.test(request.properties.address) ||
+            regex.test(request.properties.info)
+        )
+          matches.push(request)
+      })
+
+      dispatch({type: 'GET_REQUESTS', requests: matches })
+    }).fail( 
+      console.log('fail')
+    )
   }
 }
 

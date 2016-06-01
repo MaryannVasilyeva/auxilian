@@ -42,6 +42,7 @@ body {
 }  
 #greenText {
   color: #05A194;
+  text-decoration: underline;
 }
 
 #big{

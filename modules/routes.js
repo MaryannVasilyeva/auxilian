@@ -13,11 +13,16 @@ import { getMapBox } from './api/requests'
 import { createRequest, getRequests, deleteRequest } from './api/requests'
 import { UserAuthWrapper } from 'redux-auth-wrapper'
 import { push } from 'react-router-redux'
+import { browserHistory } from 'react-router'
+
+const redirectUser = () => {
+  browserHistory.push('/login')
+}
 
 const UserIsAuthenticated = UserAuthWrapper({
   authSelector: state => state.auth,
   predicate: auth => auth.isAuthenticated,
-  redirectAction: push,
+  redirectAction: redirectUser,
   wrapperDisplayName: 'UserIsAuthenticated'
 })
 
