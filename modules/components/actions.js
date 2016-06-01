@@ -58,3 +58,54 @@ export const loggedIn = (id, token) => {
   }
 }
 
+export const addRequests = (text) => {
+  return (dispatch) => {
+    fetch('/api/requests',
+      {
+        method: 'POST',
+        headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ text: text })
+      }
+    )
+    .then( res => res.json())
+    .then( json => dispatch(request('ADD_REQUEST', json)))
+  }
+}
+
+export const fetchRequests = () => {
+  return (dispatch) => {
+    fetch('/api/requests')
+    .then( res => res.json())
+    .then( json => dispatch(getRequests(json)))
+  }
+}
+
+export const searchRequests = (search) => {
+  return {
+    type: 'SEARCH_REQUESTS',
+    search
+  }
+}
+
+const getRequests = (requests) => {
+  return {
+    type: 'GET_REQUESTS',
+    requests
+  }
+}
+
+const request = (type, item) => {
+  return {
+    type: type,
+    id: item._id,
+    title: item.properties.title,
+    description: item.properties.description,
+    address: item.properties.description,
+    contact: item.properties.contact
+    
+  }
+}
+

@@ -12,7 +12,8 @@ export const createRequest = (req, res) => {
       description: req.body.desc,
       address: req.body.address,
       date: new Date(),
-      userId: req.body.id
+      userId: req.body.id,
+      info: req.body.info
     }
   }).save( function (err, request) {
     if (err)

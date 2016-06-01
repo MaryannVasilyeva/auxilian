@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import { login, signUp } from './actions'
 import { connect } from 'react-redux'
 import $ from 'jquery'
+import { blue } from '../styles.css'
 
 class Login extends Component {
   constructor(props) {
@@ -13,10 +14,10 @@ class Login extends Component {
   }
   componentDidMount() {
     $('#up').click( function () {
-      $('#su').toggle('show')
+      $('.su').toggle('show')
     }),
     $('#in').click( function () {
-      $('#si').toggle('show')
+      $('.si').toggle('show')
     })
   }
 
@@ -43,20 +44,20 @@ class Login extends Component {
         <div className="row">
           <div className="col s12 m6 center">
             <h2 className="btn-large" id="up">Sign Up</h2>
-            <form id="su" style={{ display: 'none' }} ref="signUpForm" onSubmit={this.signUp}>
+            <form className="su" style={{ display: 'none' }} ref="signUpForm" onSubmit={this.signUp}>
               <input type="text" ref="newEmail" placeholder="email" />
               <input type="password" ref="newPass" placeholder="password"/>
               <br />
-              <button className="btn" type="submit">sign up</button>
+              <button id={blue} className="btn" type="submit">sign up</button>
             </form>
           </div>
           <div className="col s12 m6 center">
             <h2 className="btn-large" id="in">Sign In</h2>
-            <form id="si" style={{ display: 'none' }} ref="signInForm" onSubmit={this.signIn}>
+            <form className="si" style={{ display: 'none' }} ref="signInForm" onSubmit={this.signIn}>
               <input type="text" ref="email" placeholder="email" />
               <input type="password" ref="pass" placeholder="password" />
               <br />
-              <button className="btn" type="submit">login</button>
+              <button id={blue} className="btn" type="submit">login</button>
             </form>
           </div>
         </div>

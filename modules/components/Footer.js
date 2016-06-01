@@ -1,36 +1,35 @@
 import React from 'react'
-import { green, inline } from '../styles.css'
+import $ from 'jquery'
+import { green, inline, footer, space } from '../styles.css'
+import { Link } from 'react-router'
 
-const Footer = () => (
+class Footer extends React.Component {
+  constructor(props) {
+    super(props)
+  }
 
-  <div>
-    <footer className="page-footer" id={green}>
-      <div className="container">
-        <div className="row">
-          <div className="col m6 s12">
-            <h5 className="white-text">Auxilian</h5>
-            <p className="grey-text text-lighten-4">Thank you for visting our website!</p>
+   componentDidMount() {
+    $('#links').click( function () {
+      $('#mo').toggle('show')
+    })
+  }
+
+  render() {
+    return(
+      <div className={footer}>
+        <footer className="page-footer" id={green}>
+          <div className="footer-copyright">
+            <div className="container">
+            © 2016 Copyright &nbsp; &nbsp; Auxilian 
+            <Link className="grey-text text-lighten-4 right" id={space} to="http://www.volunteermatch.org/" target="_blank">Volunteer Match</Link>
+            <Link className="grey-text text-lighten-4 right" id={space} to="http://slco.org/volunteer/" target="_blank">SLC Volunteer</Link>
+            <Link className="grey-text text-lighten-4 right" id={space} to="https://twitter.com/auxvolunteers" target="_blank">Twitter</Link>
+            </div>
           </div>
-          <div className="col m6 s12">
-            <h5 className="white-text">Links</h5>
-            <ul className={inline}>
-              <li><a className="grey-text text-lighten-3" href="http://www.volunteermatch.org/">Volunteer Match</a></li>
-              <li><a className="grey-text text-lighten-3" href="http://slco.org/volunteer/">SLC Volunteer</a></li>
-              <li><a className="grey-text text-lighten-3" href="https://www.facebook.com">Facebook</a></li>
-              <li><a className="grey-text text-lighten-3" href="https://twitter.com">Twitter</a></li>
-            </ul>
-          </div>
-        </div>
+        </footer>
       </div>
-      <div className="footer-copyright">
-        <div className="container">
-        © 2016 Copyright Text
-        <a className="grey-text text-lighten-4 right" href="#!"></a>
-        </div>
-      </div>
-    </footer>
-  </div>
-
-)
+    )
+  }
+}
 
 export default Footer

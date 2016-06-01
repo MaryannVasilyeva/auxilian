@@ -13,7 +13,8 @@ let Request = new Schema({
     description: { type: String, required: true },
     address:     { type: String, required: true }, 
     date:        { type: Date, default: new Date() },
-    userId:      String
+    userId:      String,
+    info:        String    
   }
 })
 

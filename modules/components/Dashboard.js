@@ -5,6 +5,7 @@ import Map from './Map'
 import { mapThing, big, requestTitle, thisDiv, hideDiv } from '../styles.css'
 import { ResponsiveEmbed } from 'react-bootstrap'
 import { Collapsible, CollapsibleItem } from 'react-materialize'
+import { addRequests } from './actions'
 
 class Dashboard extends React.Component {
   constructor(props) {
@@ -59,7 +60,8 @@ class Dashboard extends React.Component {
             'title': request.properties.title,
             'description': request.properties.description,
             'userId': request.properties.userId,
-            'requestId': request._id
+            'requestId': request._id,
+            'contact': request.properties.info
         }
       }
     })
@@ -75,7 +77,8 @@ class Dashboard extends React.Component {
         'properties': {
             'title': request.properties.title,
             'description': request.properties.description,
-            'userId': request.properties.userId
+            'userId': request.properties.userId,
+            'contact': request.properties.info
           
         }
       }
@@ -146,7 +149,7 @@ class Dashboard extends React.Component {
             .setHTML(`
               ${userfeature.properties.title} <br />
               ${userfeature.properties.description} <br />
-              <a href="#">${userfeature.properties.requestId}</a><br />
+              Contact ${userfeature.properties.contact} to volunteer<br />
             `)
             .addTo(map)
     })
@@ -167,7 +170,7 @@ class Dashboard extends React.Component {
             .setHTML(`
               ${nonuserfeature.properties.title} <br />
               ${nonuserfeature.properties.description} <br />
-              <a href="#">${nonuserfeature.properties.userId}</a>
+              Contact ${nonuserfeature.properties.contact} to volunteer</a>
             `)
             .addTo(map)
     })
@@ -187,7 +190,7 @@ class Dashboard extends React.Component {
       url: '/api/mapbox?address=' + this.refs.coord.value,
       type: 'GET'
      }).done( response => {
-      this.addRequest(this.props.auth.id, this.props.auth.email, address, response.features[0].center)
+      this.addRequest(this.props.auth.id, address, response.features[0].center)
     })
   }
 
@@ -210,12 +213,11 @@ class Dashboard extends React.Component {
        data: JSON.stringify({ id })
      }).done( request => {
        this.getRequests()
-       console.log('this is the id ' + id)
      }).fail( err => {
      })
   }
 
-  addRequest(id, email, address, coords) {
+  addRequest(id, address, coords) {
     $.ajax({
       url: '/api/requests',
       type: 'POST',
@@ -227,13 +229,15 @@ class Dashboard extends React.Component {
         coord: coords,
         id: id,
         address: address,
-        email: email 
+        info: this.refs.info.value 
       })
     }).done( request => {
       this.setState({ requests: [ ...this.state.requests, request ] })
+      this.props.dispatch(addRequests(request))
       this.refs.text.value = ''
       this.refs.desc.value = ''
-      this.refs.coord.value = '' 
+      this.refs.coord.value = ''
+      this.refs.info.value = '' 
       this.loadMap()
     })
   }
@@ -249,7 +253,7 @@ class Dashboard extends React.Component {
           <br />
           Address: {request.properties.address}
           <br />
-          Contact: {request.properties.username}
+          Contact: {request.properties.info}
           <br />
           {(id === request.properties.userId) ? (<button className="btn" onClick={() => this.deleteRequest(request._id)}>Delete</button>) : f => f}
           
@@ -265,12 +269,13 @@ class Dashboard extends React.Component {
         </ResponsiveEmbed>
       </div>
       <div className="col s12 m6 center">
-        <div style={{ height: '220px' }}>
+        <div style={{ height: '250px' }}>
           <h2 id="add" className="btn">Add a Volunteer Event</h2>
           <form id="addForm" className={hideDiv} style={{ display: 'none' }} onSubmit={(e) => this.getCoordinates(e)}>
             <input type="text" ref="text" placeholder="Volunteer Event Title" />
             <input type="text" ref="desc" placeholder="Description of Event" />
             <input type="text" ref="coord" placeholder="Location of Event" />
+            <input type="text" ref="info" placeholder="Contact Email or Phone Number" />
             <button className="btn"type="submit">Add</button>
           </form>
         </div>

@@ -1,7 +1,7 @@
 import React from 'react'
 import { Slider, Slide } from 'react-materialize'
 import '../components/home.css'
-import { slides } from '../styles.css'
+import { slides, blue } from '../styles.css'
 class Carousel extends React.Component {
 
   constructor(props) {
@@ -12,27 +12,31 @@ class Carousel extends React.Component {
     
     return (
       <div>
-        <Slider>
-          <Slide 
-          src="./../images/volutnerr.jpg"
-          title="Volunteer opportunities at your fingertips"
+        <Slider
           >
-          This is our small Tagline.
+          <Slide 
+          src="http://s19.postimg.org/9rtkjhbv7/front.jpg"
+          >
         </Slide>
         <Slide
-          src="http://s33.postimg.org/r21fcgxxb/mapboxshow.jpg"
-          title="Interactive Maps Powered by Mapbox"
-          placement="left">
+          src="http://s19.postimg.org/ooaha1gsz/initiative2.jpg"
+          >
         </Slide>
         <Slide
-          src="http://s1295.photobucket.com/user/tashahubner/media/volutnerr_zpsxtec55bf.jpg.html"
-          title="Create a project and build your community"
-          placement="right">
-          This is our small Tagline.
+          src="http://s19.postimg.org/7jevv8bbn/mapboxshow.jpg"
+          >
+        </Slide>
+        <Slide
+          src="http://s19.postimg.org/8wt8s7zv7/human.jpg"
+          >
+        </Slide>
+        <Slide
+          src="http://s19.postimg.org/5f8t6a79v/inthistogether.jpg"
+          >
         </Slide>
         </Slider>
         <div className="center">
-          <a href="/about" className="btn-large">Learn More</a>
+          <a href="/about" className="btn-large" id={blue}>Learn More</a>
         </div>
       </div>
      
