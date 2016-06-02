@@ -19,13 +19,13 @@ export default () => (
       <a href="/login" className="btn" id={blue}>Sign up today!</a>
     </div>
     <br />
-    <h1 id={greenText}>Meet our Devolopers</h1>
+    <h1 id={greenText}>Meet our Developers</h1>
       <table className="col l6 s12 center" id={us}>
         <tbody>
           <tr>
             <td className="center"><h2 id={blueText}>Tasha Johnson</h2></td>
             <td className="center"><h2 id={blueText}>Aaron Campbell</h2></td>
-            <td className="center"><h2 id={blueText}>MaryAnn Vasilyeva</h2></td>
+            <td className="center"><h2 id={blueText}>Maryann Vasilyeva</h2></td>
           </tr>
           <tr>
             <td className="center"><img className="z-depth-3" src="http://s19.postimg.org/4cfqxv1hv/tasha5.jpg" height="23%" /></td>
