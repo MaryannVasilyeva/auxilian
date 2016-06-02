@@ -2,11 +2,12 @@ import React from 'react'
 import $ from 'jquery'
 import { connect } from 'react-redux'
 import Map from './Map'
-import { mapThing, big, requestTitle, thisDiv, hideDiv, blue } from '../styles.css'
+import { mapThing, big, requestTitle, thisDiv, hideDiv, blue, forms, mapsize } from '../styles.css'
 import { ResponsiveEmbed } from 'react-bootstrap'
 import { Collapsible, CollapsibleItem } from 'react-materialize'
-import { addRequests } from './actions'
+import { fetchRequests } from './actions'
 import List from './List'
+import searchRequests from './actions'
 
 class Dashboard extends React.Component {
   constructor(props) {
@@ -149,7 +150,6 @@ class Dashboard extends React.Component {
             .setLngLat(userfeature.geometry.coordinates)
             .setHTML(`
               ${userfeature.properties.title} <br />
-              ${userfeature.properties.description} <br />
               Contact ${userfeature.properties.contact} to volunteer<br />
             `)
             .addTo(map)
@@ -170,10 +170,10 @@ class Dashboard extends React.Component {
             .setLngLat(nonuserfeature.geometry.coordinates)
             .setHTML(`
               ${nonuserfeature.properties.title} <br />
-              ${nonuserfeature.properties.description} <br />
               Contact ${nonuserfeature.properties.contact} to volunteer</a>
             `)
             .addTo(map)
+
     })
 
     map.on('mousemove', function (e) {
@@ -234,7 +234,7 @@ class Dashboard extends React.Component {
       })
     }).done( request => {
       this.setState({ requests: [ ...this.state.requests, request ] })
-      this.props.dispatch(addRequests(request))
+      this.props.dispatch(fetchRequests())
       this.refs.text.value = ''
       this.refs.desc.value = ''
       this.refs.coord.value = ''
@@ -242,48 +242,33 @@ class Dashboard extends React.Component {
       this.loadMap()
     })
   }
-  
 
   render() {
     const token = this.props.auth.token
-    const id = this.props.auth.id
-    let requests = this.state.requests.map( request => {
-      return(
-        <CollapsibleItem key={request._id} header={request.properties.title} icon="place">
-          Description: {request.properties.description} 
-          <br />
-          Address: {request.properties.address}
-          <br />
-          Contact: {request.properties.info}
-          <br />
-          {(id === request.properties.userId) ? (<button className="btn" onClick={() => this.deleteRequest(request._id)}>Delete</button>) : f => f}
-          
-        </CollapsibleItem>
-      )
-    })
+    const id = this.props.auth.id 
 
   return (
     <div id={ big }>
       <div className="row">
-      <div style={{ width: 660, height: 400 }} className="col s12 m6">
+      <div id={mapsize} className="col s12 m6">
         <ResponsiveEmbed a16by9>
           <div id="map" className={mapThing}></div>
         </ResponsiveEmbed>
+        <div id={forms}>
+          <div>
+            <h2 id="add" className="btn">Add a Volunteer Event</h2>
+            <form id="addForm" className={hideDiv} style={{ display: 'none' }} onSubmit={(e) => this.getCoordinates(e)}>
+              <input type="text" ref="text" placeholder="Volunteer Event Title" />
+              <textarea rows="6" type="text" ref="desc" placeholder="Description of Event" />
+              <input type="text" ref="coord" placeholder="Location of Event" />
+              <input type="text" ref="info" placeholder="Contact Email or Phone Number" />
+              <button id={blue} className="btn"type="submit">Add</button>
+            </form>
+          </div>
+        </div> 
       </div>
-      <List />
+      <List loadMap={this.getRequests} />
       </div>
-      <div className="center">
-        <div style={{ width: '40%' }}>
-          <h2 id="add" className="btn">Add a Volunteer Event</h2>
-          <form id="addForm" className={hideDiv} style={{ display: 'none' }} onSubmit={(e) => this.getCoordinates(e)}>
-            <input type="text" ref="text" placeholder="Volunteer Event Title" />
-            <input type="text" ref="desc" placeholder="Description of Event" />
-            <input type="text" ref="coord" placeholder="Location of Event" />
-            <input type="text" ref="info" placeholder="Contact Email or Phone Number" />
-            <button id={blue} className="btn"type="submit">Add</button>
-          </form>
-        </div>
-      </div> 
     </div>
    )
   }

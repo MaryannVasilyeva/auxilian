@@ -1,6 +1,6 @@
 import React from 'react'
 import $ from 'jquery'
-import { green, inline, footer, space } from '../styles.css'
+import { green, inline, footer, space, bigspace } from '../styles.css'
 import { Link } from 'react-router'
 
 class Footer extends React.Component {
