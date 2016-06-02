@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import { login, signUp } from './actions'
 import { connect } from 'react-redux'
 import $ from 'jquery'
-import { blue } from '../styles.css'
+import { blue, backgroundImage } from '../styles.css'
 
 class Login extends Component {
   constructor(props) {
@@ -40,6 +40,7 @@ class Login extends Component {
   render() {
 
     return (
+      <div id={backgroundImage}>
       <div className="container">
         <div className="row">
           <div className="col s12 m6 center">
@@ -61,6 +62,7 @@ class Login extends Component {
             </form>
           </div>
         </div>
+      </div>
       </div>
     )
   }

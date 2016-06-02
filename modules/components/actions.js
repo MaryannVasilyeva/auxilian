@@ -100,7 +100,7 @@ export const searchRequests = (search) => {
           matches.push(request)
       })
 
-      dispatch({type: 'GET_REQUESTS', requests: matches })
+      dispatch({ type: 'GET_REQUESTS', requests: matches })
     }).fail( 
       console.log('fail')
     )
