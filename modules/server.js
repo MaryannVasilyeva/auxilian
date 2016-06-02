@@ -37,7 +37,11 @@ passport.use(new LocalStrategy(User.authenticate()))
 passport.serializeUser(User.serializeUser())
 passport.deserializeUser(User.deserializeUser())
 
-mongoose.connect('mongodb://localhost/auxilian')
+let mongoUri = process.env.MONGODB_URI ||
+  process.env.MONGOHQ_URL ||
+  'mongodb://localhost/auxilian'
+
+mongoose.connect(mongoUri)
 
 server.start()
 
