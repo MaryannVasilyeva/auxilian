@@ -47,7 +47,7 @@ class Login extends Component {
           <div className="col s12 m6 center">
             <h2 className="btn-large" id="up">Sign Up</h2>
             <form className="su" style={{ display: 'none' }} ref="signUpForm" onSubmit={this.signUp}>
-              <input className={white} type="text" ref="newEmail" placeholder="email" />
+              <input type="text" ref="newEmail" placeholder="email" />
               <input type="password" ref="newPass" placeholder="password"/>
               <br />
               <button id={blue} className="btn" type="submit">sign up</button>
