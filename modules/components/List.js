@@ -2,7 +2,7 @@ import React from 'react'
 import { connect } from 'react-redux'
 import $ from 'jquery'
 import { fetchRequests, searchRequests } from './actions'
-import { blueText } from '../styles.css'
+import { blueText, list } from '../styles.css'
 import { Collapsible, CollapsibleItem } from 'react-materialize'
 
 const mapStateToProps = (state) => {
@@ -22,6 +22,19 @@ class List extends React.Component {
     this.props.dispatch(searchRequests(this.refs.search.value))
   }
 
+  deleteRequest(id) {
+     $.ajax({
+       url: '/api/requests/' + id,
+       type: 'DELETE',
+       dataType: 'JSON',
+       contentType: 'application/json',
+       data: JSON.stringify({ id })
+     }).done(request => {
+       this.props.dispatch(fetchRequests())
+       this.props.loadMap()
+     })
+   }
+
   render() {
     const id = this.props.id
     let requests = this.props.requests.map( request => {
@@ -39,7 +52,7 @@ class List extends React.Component {
       )
     })
     return(
-      <div className="col m6 s12">
+      <div id={list} className="col m6 s12">
         <h2 className="center" id={blueText}>Service Opportunities</h2>
           <div>
             <input onChange={this.search.bind(this)} type="text" placeholder="Search" ref="search" />

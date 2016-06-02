@@ -19,6 +19,9 @@ body {
 #us {
   margin-bottom: 150px;
 }
+#forms {
+  margin-left: 25px;
+}
 .largeText {
   font-size: 1.5em;
 }
@@ -53,6 +56,15 @@ body {
   color: #05A194;
   text-decoration: underline;
 }
+textarea {
+  height: 150px;
+  padding: 5px;
+  font-size: 1.2em;
+}
+#list {
+  max-height: 800px;
+  overflow: auto;
+}
 
 #big{
  height: 900px;
@@ -79,8 +91,7 @@ body {
   margin-bottom: 1.5em;
 }
 .mapsize {
-  min-width: 300px;
-  min-height: 300px;
+  margin-top: 10px;
 }
 .nomargin {
   margin-top: 0;
@@ -97,8 +108,12 @@ body {
   border: none;
 }
 #space {
-  padding-left: 25px;
-  padding-right: 25px;
+  padding-left: 20px;
+  padding-right: 20px;
+}
+#bigspace {
+  padding-left: 75px;
+  padding-right: 75px;
 }
 .help {
   height: auto;
@@ -112,6 +127,13 @@ a:hover {
   color: #fff;
   text-decoration: none;
   background-color: rgba(0,0,0,0.1);
+}
+#bigspace a:hover {
+  color: #fff;
+  text-decoration: none;
+  background-color: rgba(0,0,0,0);
+  pointer-events: none;
+
 }
 input[type='text'] {
   font-size: 1.2em;
@@ -143,6 +165,10 @@ input[type='password'] {
   background: #f0f0f0;
   padding: 100, 50, 100, 50;
 }
+.mapboxgl-popup {
+    max-width: 200px;
+}
+
 
 
 

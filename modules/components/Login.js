@@ -4,6 +4,7 @@ import { connect } from 'react-redux'
 import $ from 'jquery'
 import { blue, backgroundImage } from '../styles.css'
 
+
 class Login extends Component {
   constructor(props) {
     super(props)
