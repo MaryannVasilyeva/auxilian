@@ -4,6 +4,15 @@ body {
   font-weight: 200;
   margin-bottom: 100px;
 }
+
+#backgroundImage {
+  background: url("https://upload.wikimedia.org/wikipedia/commons/0/00/Sunset_Reeds,_North_Shore_Port_Lincoln_-_South_Australia.jpg") no-repeat center center;
+  background-size: cover;
+  height: 100%;
+  width: 100%;
+  position: absolute;
+}
+
 #headings {
   font-family: 'Orbitron', sans-serif;
 }
@@ -159,6 +168,7 @@ input[type='password'] {
 .mapboxgl-popup {
     max-width: 200px;
 }
+
 
 
 

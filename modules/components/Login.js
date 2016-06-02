@@ -2,7 +2,8 @@ import React, { Component } from 'react'
 import { login, signUp } from './actions'
 import { connect } from 'react-redux'
 import $ from 'jquery'
-import { blue, white } from '../styles.css'
+import { blue, backgroundImage } from '../styles.css'
+
 
 class Login extends Component {
   constructor(props) {
@@ -40,12 +41,13 @@ class Login extends Component {
   render() {
 
     return (
+      <div id={backgroundImage}>
       <div className="container">
         <div className="row">
           <div className="col s12 m6 center">
             <h2 className="btn-large" id="up">Sign Up</h2>
             <form className="su" style={{ display: 'none' }} ref="signUpForm" onSubmit={this.signUp}>
-              <input className={white} type="text" ref="newEmail" placeholder="email" />
+              <input type="text" ref="newEmail" placeholder="email" />
               <input type="password" ref="newPass" placeholder="password"/>
               <br />
               <button id={blue} className="btn" type="submit">sign up</button>
@@ -61,6 +63,7 @@ class Login extends Component {
             </form>
           </div>
         </div>
+      </div>
       </div>
     )
   }
